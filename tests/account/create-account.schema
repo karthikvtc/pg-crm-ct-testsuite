@@ -1,0 +1,151 @@
+{
+      "type": "object",
+      "description": "Customer Object",
+      "properties": {
+        "guid": {
+          "type": "string",
+          "description": "Mandatory. It could be of maximum 32 characters and can contain special characters such as =, + or /."
+        },
+        "objectId": {
+          "type": "string",
+          "description": "Mandatory."
+        },
+        "firstName": {
+          "type": "string",
+          "description": "Optional. Required only on Account Create and if customerType is PERSON. Your first name must have a minimum of 1 alphabet character and a maximum of 64. It can include spaces, apostrophes, and hyphens. It will be stored as received."
+        },
+        "lastName": {
+          "type": "string",
+          "description": "Optional. Required only on Account Create and if customerType is PERSON. Your last name must have a minimum of 1 alphabet character and a maximum of 64. It can include spaces, apostrophes, and hyphens. It will be stored as received."
+        },
+        "middleInitial": {
+          "type": "string",
+          "description": "Optional. Must be either 0 or 1 letter. It is case sensitive in storage."
+        },
+        "organizationName": {
+          "type": "string",
+          "description": "Optional. Required only on Account Create and if customerType is BUSINESS. Must have minimum 2 and maximum 80 characters."
+        },
+        "customerType": {
+          "type": "string",
+          "description": "Optional. Possible values are PERSON or BUSINESS, default is PERSON."
+        },
+        "preferredLanguage": {
+          "type": "string",
+          "description": "Optional. Must be minimum 2 and maximum 15 characters. Should be in ISO format. Supported values: en-us, fr-ca, es-pr."
+        },
+        "createDate": {
+          "type": "number",
+          "description": "Takes Milliseconds since Epoch Time. E.g. - 1511796583386."
+        },
+        "createSource": {
+          "type": "string",
+          "description": "Acceptable values are - US_SELF, US_DEALER, TMNA_AGENT, TC_AGENT, CA_SELF, CA_DEALER, LER, TRC. Channel values are case sensitive."
+        },
+        "lastUpdateDate": {
+          "type": "number",
+          "description": "Takes Milliseconds since Epoch Time. E.g. - 1511796583386."
+        },
+        "lastUpdateSource": {
+          "type": "string",
+          "description": "Acceptable values are - US_SELF, US_DEALER, TMNA_AGENT, TC_AGENT, CA_SELF, CA_DEALER, LER, TRC. Channel values are case sensitive."
+        },
+        "affiliateIdentifiers": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Optional. This is to indicate/identify if customer is an affiliate customer or not. If customer's account is created from Canadian portal/dealer or if they have Canadian vehicle or if they have Canadian address, it will have value as 'TCI'. If customer's have SERVCO/Hawaiian vehicle or if they have Hawaiian address, it will have value as 'SERVCO'. If customer's have TDPR vehicle or if they have TDPR address, it will have value as 'TDPR'. For scenarios where customers have multi region vehicles, the value will be an array, for e.g.: [TCI, SERVCO, TDPR]. The values should not have duplicate entries i.e. there should not be 2 entries for 'TCI' and similarly for other values."
+        },
+        "addresses": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PostalAddress"
+          }
+        },
+        "phoneNumbers": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/PhoneNumbers"
+          }
+        },
+        "emails": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Emails"
+          }
+        }
+      }
+    },
+    "PostalAddress": {
+      "properties": {
+        "addressType": {
+          "type": "string",
+          "description": "Optional. Must be maximum 15 characters. Possible values: WORK or HOME. Default is HOME. Only one entry could be there for each address type."
+        },
+        "address": {
+          "type": "string",
+          "description": "Optional. Must have minimum 3 and maximum 256 characters."
+        },
+        "city": {
+          "type": "string",
+          "description": "Optional. Must have minimum 2 and maximum 80 characters."
+        },
+        "state": {
+          "type": "string",
+          "description": "Optional. Must be exactly 2 characters."
+        },
+        "zipCode": {
+          "type": "string",
+          "description": "Optional. If the selected country is US, then zip code must be either 5 digits exactly or 5 digits with a dash followed by 4 digits (for the extension code). If the selected country is CA, then zip code must be of the 6 characters and follow the format \"A1A 1A1\" i.e. 3 characters followed by a <space> and the remaining 3 characters. If selected country is TDPR, then the zip code must be exactly 5 digits."
+        },
+        "country": {
+          "type": "string",
+          "description": "Optional. Must be exactly 2 characters."
+        }
+      }
+    },
+    "PhoneNumbers": {
+      "properties": {
+        "phoneType": {
+          "type": "string",
+          "description": "Optional. Must be either of the following: MOBILE, LANDLINE and OTHER."
+        },
+        "countryCode": {
+          "type": "number",
+          "description": "Optional. Not required from the customer. Will be derived by the system."
+        },
+        "phoneNumber": {
+          "type": "number",
+          "description": "Mandatory. Must be exactly 10 digits."
+        },
+        "phoneVerified": {
+          "type": "boolean",
+          "description": "Optional"
+        },
+        "verificationDate": {
+          "type": "number",
+          "description": "Takes Milliseconds since Epoch Time. E.g. - 1511796583386."
+        }
+      }
+    },
+    "Emails": {
+      "properties": {
+        "emailType": {
+          "type": "string",
+          "description": "Mandatory. Must be \"Azure\" for now."
+        },
+        "emailAddress": {
+          "type": "string",
+          "description": "Mandatory. Your email must be in the format something@domain.com. 'something' may include alphabets, numbers and any of the following special characters: period (.), exclamation mark (!), number/hash sign (#), dollar sign ($), percent sign (%), ampersand (&), apostrophe ('), circumflex accent (^), underscore (_), grave accent (`), left curly bracket ({), right curly bracket (}), tilde (~) and hyphen (-). 'domain' can only include alphabets, numbers and hyphen. It cannot have spaces at all."
+        },
+        "emailVerified": {
+          "type": "boolean",
+          "description": "Mandatory"
+        },
+        "verificationDate": {
+          "type": "number",
+          "description": "Optional. Will have the value only once email is verified. Takes Milliseconds since Epoch Time. E.g. - 1511796583386."
+        }
+      }
+    }
