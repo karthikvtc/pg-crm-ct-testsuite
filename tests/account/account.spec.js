@@ -67,14 +67,25 @@ describe(`Create account`, () => {
 });
 
 describe(`Update account`, () => {
+    let homeAddress;
     before((done) => {
         const api = supertest(config.updateAccountBaseUrl);
-
+        
         data.firstName += '-edited';
         data.lastName += '-edited';
         data.preferredLanguage = 'es-pr';
         data.guid = account.guid;
         data.objectId = account.objectId;
+        data.addresses = [];
+        homeAddress = {
+            addressType: 'HOME',
+            address: 'Test data',
+            state: 'TX',
+            city: 'Plano',
+            country: 'US',
+            zipCode: '75024'
+        };
+        data.addresses.push(homeAddress);
         delete data.email;
         delete data.phoneNumber;
         delete data.customerType;
@@ -109,4 +120,28 @@ describe(`Update account`, () => {
     it("should update preferred language", () => {
         expect(account.preferredLanguage).to.equal(data.preferredLanguage);
     });
+
+    it("should have updated home address", () => {
+        expect(account.addresses.length).to.equal(1);
+    });
+
+    it("should set address type to HOME", () => {
+        expect(account.addresses[0].addressType).to.equal(homeAddress.addressType);
+    });
+
+    it("should update home street", () => {
+        expect(account.addresses[0].address).to.equal(homeAddress.address);
+    })
+    it("should update home city", () => {
+        expect(account.addresses[0].city).to.equal(homeAddress.city);
+    })
+    it("should update home state", () => {
+        expect(account.addresses[0].state).to.equal(homeAddress.state);
+    })
+    it("should update home country", () => {
+        expect(account.addresses[0].country).to.equal(homeAddress.country);
+    })
+    it("should update home zipcode", () => {
+        expect(account.addresses[0].zipCode).to.equal(homeAddress.zipCode);
+    })
 });
