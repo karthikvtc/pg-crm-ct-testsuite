@@ -1,0 +1,83 @@
+{
+      "type":"object",
+      "description":"Create Subscription Response Object",
+      "properties":{
+        "subscriberGuid":{
+          "type":"string",
+          "description":"value from subscription-management data store. If it is a new VIN, this is empty"
+        },
+        "vehicleStatus":{
+          "type":"string",
+          "description":"value from subscription-management data store. If it is a new VIN, this is empty. Value can be: SOLD, CANCELED, WAIVED, SUBSCRIBED"
+        },
+        "subscriptions":{
+          "type":"array",
+          "items":{
+            "type":"object",
+            "description":"",
+            "properties":{
+              "packageID":{
+                "type":"string",
+                "description":"Identify the package. Predefined in SVPP."
+              },
+              "packageName":{
+                "type":"string",
+                "description":"Name of the package. Predefined in SVPP."
+              },
+              "productID":{
+                "type":"string",
+                "description":"Identify the package. Predefined in SVPP."
+              },
+              "productCode":{
+                "type":"string",
+                "description":"Unique product identifier code."
+              },
+              "productName":{
+                "type":"string",
+                "description":"name of the product."
+              },
+              "ratePlanID":{
+                "type":"string",
+                "description":"Unique ID which is used to identify the plan."
+              },
+              "term":{
+                "type":"integer",
+                "description":"Describes the length or period of the product applicable."
+              },
+              "termUnit":{
+                "type":"string",
+                "description":"Value has to represent the type of terms example : MTH, Day."
+              },
+              "description":{
+                "type":"string",
+                "description":"Description about the product/service."
+              },
+              "subscriptionStartDate":{
+                "type":"string",
+                "description":"Subscription start date in yyyy-mm-dd. Eg: 2018-10-31. can be null"
+              },
+              "subscriptionEndDate":{
+                "type":"string",
+                "description":"Subscription end date in yyyy-mm-dd. Eg: 2018-10-31. can be null"
+              },
+              "type": {
+                "type": "string",
+                "description": "Valid values are Trial or Paid."
+              },
+              "price": {
+                "type": "number",
+                "description": "the price of the paid package, it is Double, can hold decimal"
+              },
+              "discount": {
+                "type": "number",
+                "description": "the discount of the paid package. It is Double, can hold decimal"
+              },
+              "currency": {
+                "type": "string",
+                "description": "the currency"
+              }
+            }
+          }
+        }
+      }
+}

@@ -21,6 +21,8 @@ var headers = {
     'X-CORRELATIONID': '123e4567-e89b-12d3-a456-abhishek0002',
     'Authorization': config.authKey
 };
+console.log(config.authKey);
+console.log(config.updateAccountBaseUrl)
 var data = test_data;
 data.firstName = utils.randomStr(5);
 data.lastName = utils.randomStr(5);
