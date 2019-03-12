@@ -6,31 +6,31 @@ const config = JSON.parse(fs.readFileSync(`${__dirname}/config.${envNamePrefix.t
 config.authKey = process.env[`${envNamePrefix}_CT_SUBSCRIPTION_AUTH_KEY`];
 
 var headers = {
-    'Accept': 'application/json',
     'Content-Type': 'application/json',
     'X-CHANNEL': 'TC_AGENT',
-    'X-CORRELATIONID': '123e4567-e89b-12d3-a456-abhishek0002',
+    'X-CORRELATIONID': '98a82114-d859-8ffe-4f51-ffe284ab3c1f',
     'X-BRAND': 'L',
-    'asi-code': 'AB',
-    'hw-type': '010',
-    'generation': '17CYPLUS',
-    'region': 'US',
-    'Authorization': config.authKey,
-    'DATETIME': 1511796583386
+    'Authorization': '8923gf7126h44b14d3df08dd9f87a',
+    'DATETIME': 1540232258482
 };
 
 const service = function () {
     return {
-        getAvailableSubscriptions: (vin, done) => {
-            const subPreviewEndPoint = `${config.subPreviewEndPoint}/${vin}`;
-            const api = supertest(config.subscriptionPreviewUrl);
-            headers.vin = vin;
-            api.get(subPreviewEndPoint)
+        createSubscription: (data, done) => {
+            const api = supertest(config.orchestrationApiBaseUrl);
+            api.post(config.subscriptionEndPoint)
                 .set(headers)
-                .end((err, res) => {
-                    done(res);
-                })
-        }
+                .send(data)
+                .end(done);
+        },
+        cancelSubscription: (data, done) => {
+            const api = supertest(config.orchestrationApiBaseUrl);
+            const cancelSubEndPoint = "/subscription/v1/cancel";
+            api.put(cancelSubEndPoint)
+                .set(headers)
+                .send(data)
+                .end(done);
+        },
     }
 }
 

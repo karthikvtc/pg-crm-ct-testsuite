@@ -1,8 +1,46 @@
 {
-    "customerType": "PERSON",
-    "firstName": "Caral",
-    "lastName": "Kamal",
-    "email":"cacht4578341@gmail.com",
-    "phoneNumber": "1840178856",
-    "preferredLanguage": "en-us"
+    "waiver": false,
+    "vin": "1FTRF02534KA28188",
+    "termsAcceptanceDate": "2019-02-19T17:46:48.435-0800",
+    "subscriptions": [
+        {
+            "type": "Trial",
+            "termUnit": "MTH",
+            "term": 108,
+            "ratePlanID": "8adc8f996564fdb801656724bf3b389d",
+            "productID": "9f785e5b-d46d-4b21-a2fd-e594d622139e",
+            "productCode": "PROD_SAFETYCONNECT",
+            "packageID": "eab2a025-294b-44ae-802a-f6055a5c6db7"
+        },
+        {
+            "type": "Trial",
+            "termUnit": "MTH",
+            "term": 12,
+            "ratePlanID": "8adc8f996564fdb801656724beb33890",
+            "productID": "b5a64408-aa4b-4530-aea9-20c4a9aae481",
+            "productCode": "PROD_DESTASSIST",
+            "packageID": "eab2a025-294b-44ae-802a-f6055a5c6db7"
+        },
+        {
+            "type": "Trial",
+            "termUnit": "MTH",
+            "term": 6,
+            "ratePlanID": "8adc8f996564fdb801656724bc03384a",
+            "productID": "b5a64408-aa4b-4530-aea9-20c4a9aae480",
+            "productCode": "PROD_REMOTESERVICE",
+            "packageID": "eab2a025-294b-44ae-802a-f6055a5c6db7"
+        }
+    ],
+    "subscriberGuid": "3b1554bf008e411fa6e988d91a1c7372",
+    "remoteUserGuid": "3b1554bf008e411fa6e988d91a1c7372",
+    "region": "US",
+    "generation": "17CYPLUS",
+    "dataConsent": {
+        "ubi": "FALSE",
+        "serviceConnect": "True",
+        "dealerContact": "True",
+        "can300": "True"
+    },
+    "createSource": "TC_AGENT",
+    "createDate": "2019-02-19T17:46:48.435-0800"
 }

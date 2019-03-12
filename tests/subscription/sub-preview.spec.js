@@ -21,7 +21,7 @@ describe(`Get Available Subscriptions`, () => {
         });
     });
     before((done) => {
-        subPreviewService.getAvailableSubscriptions(vin, (res)=>{
+        subPreviewService.getAvailableSubscriptions(vin, (err,res)=>{
             response = res;
             if (res.body.payload) {
                 subscriptions = res.body.payload.subscriptions;

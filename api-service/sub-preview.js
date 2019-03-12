@@ -27,9 +27,7 @@ const service = function () {
             headers.vin = vin;
             api.get(subPreviewEndPoint)
                 .set(headers)
-                .end((err, res) => {
-                    done(res);
-                })
+                .end(done)
         }
     }
 }

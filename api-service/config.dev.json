@@ -5,6 +5,7 @@
 
     "subscriptionPreviewUrl": "https://spreview.dev.telematicsct.com",
     "orchestrationApiBaseUrl" : "https://orchsub.dev.telematicsct.com",
-    "subPreviewEndPoint": "/v1/subscriptions"
+    "subPreviewEndPoint": "/v1/subscriptions",
+    "subscriptionEndPoint": "/subscription/v1/subscriptions"
 }
 
