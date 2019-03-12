@@ -1,28 +1,14 @@
 require('dotenv').config();
-const supertest = require('supertest');
 const expect = require('chai').expect;
-const mocha = require('mocha')
 const tv4 = require('tv4');
 const fs = require('fs');
-const utils = require('../../utils');
-const envNamePrefix = process.env.ENV;
-const config = JSON.parse(fs.readFileSync(__dirname + '/account.config'))[envNamePrefix];
 const schema = fs.readFileSync(__dirname + '/create-account.schema');
 const test_data = JSON.parse(fs.readFileSync(__dirname + '/account.data', 'utf8'));
-const apiEndPoint = config.apiEndPoint;
+const accountService = require('../../api-service/account');
+const utils = require('../../utils');
 
-config.authKey = process.env[`${envNamePrefix}_CT_ACCOUNT_AUTH_KEY`];
 var response;
 var account = {};
-var headers = {
-    'Accept': 'application/json',
-    'Content-Type': 'application/json',
-    'X-CHANNEL': 'TC_AGENT',
-    'X-CORRELATIONID': '123e4567-e89b-12d3-a456-abhishek0002',
-    'Authorization': config.authKey
-};
-console.log(config.authKey);
-console.log(config.updateAccountBaseUrl)
 var data = test_data;
 data.firstName = utils.randomStr(5);
 data.lastName = utils.randomStr(5);
@@ -31,17 +17,13 @@ data.phoneNumber = utils.randomPhoneNumber();
 
 describe(`Create account`, () => {
     before((done) => {
-        const api = supertest(config.createAccountBaseUrl);
-        api.post(apiEndPoint)
-            .set(headers)
-            .send(data)
-            .end((err, res)=>{
-                response = res;
-                if (res.body.payload) {
-                    account = res.body.payload.customer;
-                }
-                done();
-            })
+        accountService.createAccount(data, (err, res)=>{
+            response = res;
+;            if (res.body.payload) {
+                account = res.body.payload.customer;
+            }
+            done();
+        })
     });
 
     it('should return 201', () => {
@@ -71,8 +53,6 @@ describe(`Create account`, () => {
 describe(`Update account`, () => {
     let homeAddress;
     before((done) => {
-        const api = supertest(config.updateAccountBaseUrl);
-        
         data.firstName += '-edited';
         data.lastName += '-edited';
         data.preferredLanguage = 'es-pr';
@@ -91,19 +71,13 @@ describe(`Update account`, () => {
         delete data.email;
         delete data.phoneNumber;
         delete data.customerType;
-        const payload = {
-            customer: data
-        }
-        api.put(apiEndPoint)
-            .set(headers)
-            .send(payload)
-            .end((err,res)=>{
-                response = res;
-                if(response.body.payload){
-                    account = response.body.payload.customer;
-                }
-                done();
-            });
+        accountService.updateAccount(data, (err,res)=>{
+            response = res;
+            if(response.body.payload){
+                account = response.body.payload.customer;
+            }
+            done();
+        });
     });
 
     it('should return 200', () => {

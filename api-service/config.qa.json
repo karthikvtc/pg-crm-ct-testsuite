@@ -1,0 +1,10 @@
+{
+    "createAccountBaseUrl": "https://orchcca.qa.telematicsct.com",
+    "updateAccountBaseUrl": "https://orchcu.qa.telematicsct.com",
+    "apiEndPoint": "/v1/account",
+
+    "subscriptionPreviewUrl": "https://spreview.qa.telematicsct.com",
+    "orchestrationApiBaseUrl" : "https://orchsub.qa.telematicsct.com",
+    "subPreviewEndPoint": "/v1/subscriptions"
+}
+

@@ -11,9 +11,8 @@ module.exports = function (env) {
     
                 if (res && is2xxSuccess(res.statusCode)) {
                     let vin = res.body;
-                    //console.log(vin);
-                    //await vinService.registerInADF(vin, imei);
-                    //await vinService.registerInFDF(vin, imei);
+                    await vinService.registerInADF(vin, imei);
+                    await vinService.registerInFDF(vin, imei);
                     resolve(vin);
                 } else {
                     resolve(null);
