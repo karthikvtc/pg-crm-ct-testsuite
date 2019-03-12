@@ -17,7 +17,7 @@ var response;
 var vin;
 var subscriptions = [];
 var subscriberGuid, remoteUserGuid;
-var data = {};
+var data = test_data;
 
 describe(`Create Subscription`, () => {
     before((done) => {
@@ -56,8 +56,9 @@ describe(`Create Subscription`, () => {
         data.subscriptions = subscriptions;
         subscriptionService.createSubscription(data, (err, res) => {
             if(err || res.statusCode != 200){
-                console.log(err);
+                console.log('-------------- REQUEST --------------');
                 console.log(data);
+                console.log('-------------- RESPONSE --------------');
                 console.log(JSON.stringify(res.body));
             }
             response = res;
