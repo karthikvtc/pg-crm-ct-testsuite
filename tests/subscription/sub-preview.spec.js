@@ -13,7 +13,7 @@ var vin;
 var subscriptions = {};
 var availableSubscription = {};
 
-describe(`Get Available Subscriptions`, () => {
+describe(`Get Available Subscriptions API`, () => {
     before((done) => {
         vinService.createVin().then((res) => {
             vin = res;
