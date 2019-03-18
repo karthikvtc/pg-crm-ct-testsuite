@@ -21,7 +21,7 @@ var data = test_data;
 var subResponse = null;
 var subItemResponse = null;
 
-describe(`Create Subscription`, () => {
+describe(`Create Subscription API`, () => {
     before((done) => {
         vinService.createVin().then((res) => {
             vin = res;
@@ -119,7 +119,7 @@ describe(`Create Subscription`, () => {
 });
 
 
-describe(`Cancel Subscription`, () => {
+describe(`Cancel Subscription API`, () => {
     before((done) => {
         data = {};
         data.vin = vin;

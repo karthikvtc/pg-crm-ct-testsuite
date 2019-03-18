@@ -15,7 +15,7 @@ data.lastName = utils.randomStr(5);
 data.email = `${data.lastName}@test.com`;
 data.phoneNumber = utils.randomPhoneNumber();
 
-describe(`Create account`, () => {
+describe(`Create account API`, () => {
     before((done) => {
         accountService.createAccount(data, (err, res)=>{
             response = res;
@@ -50,7 +50,7 @@ describe(`Create account`, () => {
     });
 });
 
-describe(`Update account`, () => {
+describe(`Update account API`, () => {
     let homeAddress;
     before((done) => {
         data.firstName += '-edited';
