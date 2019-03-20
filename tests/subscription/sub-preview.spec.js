@@ -25,6 +25,7 @@ describe(`Get Available Subscriptions API`, () => {
             response = res;
             if (res.body.payload) {
                 subscriptions = res.body.payload.subscriptions;
+                console.log(subscriptions);
                 availableSubscription = subscriptions[0];
             }
             done();
@@ -46,6 +47,8 @@ describe(`Get Available Subscriptions API`, () => {
 
     it("should have productName", () => {
         expect(availableSubscription.productName).is.exist;
+        expect(availableSubscription.productName).to.not.be.empty;
+
     });
 
     it("should have productID", () => {

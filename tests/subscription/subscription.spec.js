@@ -66,6 +66,7 @@ describe(`Create Subscription API`, () => {
             response = res;
             if(res.body) {
                 subResponse = res.body.payload;
+                console.log(subResponse);
                 if(res.body.payload && res.body.payload.subscriptions){
                     subItemResponse = res.body.payload.subscriptions[0];
                 }
@@ -83,38 +84,16 @@ describe(`Create Subscription API`, () => {
         expect(subResponse).to.not.be.null;
     });
 
-    it('should return contractID in the response', () => {
-        expect(subResponse.contractID).to.exist;
-    });
     it('should return more than one subscription items', () => {
         expect(subItemResponse).to.not.be.null;
     });
-    it('should return packageID in the response', () => {
-        expect(subItemResponse.packageID).to.exist;
-    });
-    it('should return productCode in the response', () => {
-        expect(subItemResponse.productCode).to.exist;
+    it('should return subscriptionID in the response', () => {
+        expect(subItemResponse.subscriptionID).to.exist;
+        expect(subItemResponse.ratePlanID).to.not.be.empty;
     });
     it('should return ratePlanID in the response', () => {
         expect(subItemResponse.ratePlanID).to.exist;
-    });
-    it('should return productID in the response', () => {
-        expect(subItemResponse.productID).to.exist;
-    });
-    it('should return term in the response', () => {
-        expect(subItemResponse.term).to.exist;
-    });
-    it('should return termUnit in the response', () => {
-        expect(subItemResponse.termUnit).to.exist;
-    });
-    it('should return type in the response', () => {
-        expect(subItemResponse.type).to.exist;
-    });
-    it('should return subscriptionEndDate in the response', () => {
-        expect(subItemResponse.subscriptionEndDate).to.exist;
-    });
-    it('should return subscriptionID in the response', () => {
-        expect(subItemResponse.subscriptionID).to.exist;
+        expect(subItemResponse.ratePlanID).to.not.be.empty;
     });
 });
 
