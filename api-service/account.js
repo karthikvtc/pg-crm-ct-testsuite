@@ -32,6 +32,18 @@ const service = function () {
                 .set(headers)
                 .send(payload)
                 .end(done);
+        },
+        searchAccount: (data, done) => {
+            const api = supertest(config.searchAccountBaseUrl);
+           
+            if(data.email){
+                headers.Email = data.email
+            } else if( data.phone){
+                headers.Phone = data.phoneNumber
+            }
+            api.get(apiEndPoint)
+                .set(headers)
+                .end(done);
         }
     }
 }

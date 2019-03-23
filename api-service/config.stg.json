@@ -1,6 +1,7 @@
 {
     "createAccountBaseUrl": "https://orchcca.stg.telematicsct.com",
     "updateAccountBaseUrl": "https://orchcu.stg.telematicsct.com",
+    "searchAccountBaseUrl": "https://orchcd.stg.telematicsct.com",
     "apiEndPoint": "/v1/account",
 
     "subscriptionPreviewUrl": "https://spreview.stg.telematicsct.com",

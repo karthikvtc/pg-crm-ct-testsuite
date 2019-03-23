@@ -19,7 +19,7 @@ describe(`Create account API`, () => {
     before((done) => {
         accountService.createAccount(data, (err, res)=>{
             response = res;
-;            if (res.body.payload) {
+            if (res.body.payload) {
                 account = res.body.payload.customer;
             }
             done();
@@ -50,31 +50,13 @@ describe(`Create account API`, () => {
     });
 });
 
-describe(`Update account API`, () => {
-    let homeAddress;
+describe(`Search account by email`, () => {
+    let accountFound;
     before((done) => {
-        data.firstName += '-edited';
-        data.lastName += '-edited';
-        data.preferredLanguage = 'es-pr';
-        data.guid = account.guid;
-        data.objectId = account.objectId;
-        data.addresses = [];
-        homeAddress = {
-            addressType: 'HOME',
-            address: 'Test data',
-            state: 'TX',
-            city: 'Plano',
-            country: 'US',
-            zipCode: '75024'
-        };
-        data.addresses.push(homeAddress);
-        delete data.email;
-        delete data.phoneNumber;
-        delete data.customerType;
-        accountService.updateAccount(data, (err,res)=>{
+        accountService.searchAccount(data, (err,res)=>{
             response = res;
             if(response.body.payload){
-                account = response.body.payload.customer;
+                accountFound = response.body.payload.customer;
             }
             done();
         });
@@ -84,40 +66,103 @@ describe(`Update account API`, () => {
         expect(response.status).to.equal(200);
     });
 
-    it('should match the schema', async () => {
-        expect(await tv4.validate(account, schema)).to.be.true;
+    it("should get an account with matching email", () => {
+        expect(accountFound.emails[0].emailAddress).to.equal(data.email);
     });
-
-    it("should update firstname and lastname", () => {
-        expect(account.firstName).to.equal(data.firstName);
-        expect(account.lastName).to.equal(data.lastName);
-    });
-
-    it("should update preferred language", () => {
-        expect(account.preferredLanguage).to.equal(data.preferredLanguage);
-    });
-
-    it("should have updated home address", () => {
-        expect(account.addresses.length).to.equal(1);
-    });
-
-    it("should set address type to HOME", () => {
-        expect(account.addresses[0].addressType).to.equal(homeAddress.addressType);
-    });
-
-    it("should update home street", () => {
-        expect(account.addresses[0].address).to.equal(homeAddress.address);
-    })
-    it("should update home city", () => {
-        expect(account.addresses[0].city).to.equal(homeAddress.city);
-    })
-    it("should update home state", () => {
-        expect(account.addresses[0].state).to.equal(homeAddress.state);
-    })
-    it("should update home country", () => {
-        expect(account.addresses[0].country).to.equal(homeAddress.country);
-    })
-    it("should update home zipcode", () => {
-        expect(account.addresses[0].zipCode).to.equal(homeAddress.zipCode);
-    })
 });
+
+describe(`Search account by phone number`, () => {
+    let accountFound;
+    before((done) => {
+        delete data.email;
+        accountService.searchAccount(data, (err,res)=>{
+            response = res;
+            if(response.body.payload){
+                accountFound = response.body.payload.customer;
+            }
+            done();
+        });
+    });
+
+    it('should return 200', () => {
+        expect(response.status).to.equal(200);
+    });
+
+    it("should get an account with matching phone number", () => {
+        expect(accountFound.phoneNumbers[0].phon).to.equal(data.phoneNumber);
+    });
+});
+
+// describe(`Update account API`, () => {
+//     let homeAddress;
+//     before((done) => {
+//         data.firstName += '-edited';
+//         data.lastName += '-edited';
+//         data.preferredLanguage = 'es-pr';
+//         data.guid = account.guid;
+//         data.objectId = account.objectId;
+//         data.addresses = [];
+//         homeAddress = {
+//             addressType: 'HOME',
+//             address: 'Test data',
+//             state: 'TX',
+//             city: 'Plano',
+//             country: 'US',
+//             zipCode: '75024'
+//         };
+//         data.addresses.push(homeAddress);
+//         delete data.email;
+//         delete data.phoneNumber;
+//         delete data.customerType;
+//         accountService.updateAccount(data, (err,res)=>{
+//             response = res;
+//             if(response.body.payload){
+//                 account = response.body.payload.customer;
+//             }
+//             done();
+//         });
+//     });
+
+//     it('should return 200', () => {
+//         expect(response.status).to.equal(200);
+//     });
+
+//     it('should match the schema', async () => {
+//         expect(await tv4.validate(account, schema)).to.be.true;
+//     });
+
+//     it("should update firstname and lastname", () => {
+//         expect(account.firstName).to.equal(data.firstName);
+//         expect(account.lastName).to.equal(data.lastName);
+//     });
+
+//     it("should update preferred language", () => {
+//         expect(account.preferredLanguage).to.equal(data.preferredLanguage);
+//     });
+
+//     it("should have updated home address", () => {
+//         expect(account.addresses.length).to.equal(1);
+//     });
+
+//     it("should set address type to HOME", () => {
+//         expect(account.addresses[0].addressType).to.equal(homeAddress.addressType);
+//     });
+
+//     it("should update home street", () => {
+//         expect(account.addresses[0].address).to.equal(homeAddress.address);
+//     })
+//     it("should update home city", () => {
+//         expect(account.addresses[0].city).to.equal(homeAddress.city);
+//     })
+//     it("should update home state", () => {
+//         expect(account.addresses[0].state).to.equal(homeAddress.state);
+//     })
+//     it("should update home country", () => {
+//         expect(account.addresses[0].country).to.equal(homeAddress.country);
+//     })
+//     it("should update home zipcode", () => {
+//         expect(account.addresses[0].zipCode).to.equal(homeAddress.zipCode);
+//     })
+// });
+
+

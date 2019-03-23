@@ -47,7 +47,7 @@ describe(`Get Available Subscriptions API`, () => {
 
     it("should have productName", () => {
         expect(availableSubscription.productName).is.exist;
-        expect(availableSubscription.productName).to.not.be.empty;
+        expect(availableSubscription.ratePlanID).to.not.be.empty;
 
     });
 
