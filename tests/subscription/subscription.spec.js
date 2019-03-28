@@ -5,9 +5,9 @@ const tv4 = require('tv4');
 const fs = require('fs');
 const envNamePrefix = process.env.ENV;
 const vinService = require(__dirname + '/../../vin-service')(envNamePrefix);
-const subPreviewService = require('../../api-service/sub-preview');
-const subscriptionService = require('../../api-service/subscription');
-const accountService = require('../../api-service/account');
+const SubPreviewService = require('../../api-service/sub-preview');
+const SubscriptionService = require('../../api-service/subscription');
+const AccountService = require('../../api-service/account');
 const test_data = JSON.parse(fs.readFileSync(__dirname + '/subscription.data', 'utf8'));
 const utils = require('../../utils');
 const schema = fs.readFileSync(__dirname + '/subscription.schema');
@@ -33,6 +33,7 @@ describe(`Create Trial Subscription `, () => {
         account.lastName = utils.randomStr(5);
         account.email = `${account.lastName}@test.com`;
         account.phoneNumber = utils.randomPhoneNumber();
+        const accountService = new AccountService();
         accountService.createAccount(account, (err,res) => {
             if (res.body.payload) {
                 subscriberGuid = res.body.payload.customer.guid;
@@ -42,6 +43,8 @@ describe(`Create Trial Subscription `, () => {
         });
     });
     before((done) => {
+        const subPreviewService = new SubPreviewService();
+
         subPreviewService.getAvailableSubscriptions(vin, (err,res) => {
             response = res;
             if (res.body.payload) {
@@ -53,8 +56,10 @@ describe(`Create Trial Subscription `, () => {
     before((done) => {
         data.vin = vin;
         data.subscriberGuid = subscriberGuid;
-       // data.remoteUserGuid = remoteUserGuid;
+        data.remoteUserGuid = remoteUserGuid;
         data.subscriptions = subscriptions.filter((s)=>{return s.type === 'Trial'});
+        const subscriptionService = new SubscriptionService();
+
         subscriptionService.createSubscription(data, (err, res) => {
             if(err || res.statusCode != 200){
                 console.log('-------------- REQUEST --------------');
@@ -103,6 +108,8 @@ describe(`Cancel Subscription`, () => {
         data.vin = vin;
         data.subscriberGuid = subscriberGuid;
         data.vehicleStatus = "SOLD";
+        const subscriptionService = new SubscriptionService();
+
         subscriptionService.cancelSubscription(data, (err, res) => {
             if(err || res.statusCode != 200){
                 console.log(err);

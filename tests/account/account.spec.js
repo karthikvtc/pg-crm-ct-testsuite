@@ -4,8 +4,8 @@ const tv4 = require('tv4');
 const fs = require('fs');
 const schema = fs.readFileSync(__dirname + '/create-account.schema');
 const test_data = JSON.parse(fs.readFileSync(__dirname + '/account.data', 'utf8'));
-const accountService = require('../../api-service/account');
 const utils = require('../../utils');
+const AccountService = require('../../api-service/account');
 
 var response;
 var account = {};
@@ -17,6 +17,7 @@ data.phoneNumber = utils.randomPhoneNumber();
 
 describe(`Create account API`, () => {
     before((done) => {
+        const accountService = new AccountService();
         accountService.createAccount(data, (err, res)=>{
             response = res;
             if (res.body.payload) {
@@ -28,10 +29,6 @@ describe(`Create account API`, () => {
 
     it('should return 201', () => {
         expect(response.status).to.equal(201);
-    });
-
-    it('should match the schema', async () => {
-        expect(await tv4.validate(account, schema)).to.be.true;
     });
 
     it("should insert firstname and lastname", () => {
@@ -53,6 +50,8 @@ describe(`Create account API`, () => {
 describe(`Search account by email`, () => {
     let accountFound;
     before((done) => {
+        const accountService = new AccountService();
+
         accountService.searchAccount(data, (err,res)=>{
             response = res;
             if(response.body.payload){
@@ -75,6 +74,8 @@ describe(`Search account by phone number`, () => {
     let accountFound;
     before((done) => {
         delete data.email;
+        data.phone = data.phoneNumber;
+        const accountService = new AccountService();
         accountService.searchAccount(data, (err,res)=>{
             response = res;
             if(response.body.payload){
@@ -114,6 +115,7 @@ describe(`Update account API`, () => {
         delete data.email;
         delete data.phoneNumber;
         delete data.customerType;
+        const accountService = new AccountService();
         accountService.updateAccount(data, (err,res)=>{
             response = res;
             if(response.body.payload){
@@ -125,10 +127,6 @@ describe(`Update account API`, () => {
 
     it('should return 200', () => {
         expect(response.status).to.equal(200);
-    });
-
-    it('should match the schema', async () => {
-        expect(await tv4.validate(account, schema)).to.be.true;
     });
 
     it("should update firstname and lastname", () => {
@@ -164,5 +162,3 @@ describe(`Update account API`, () => {
         expect(account.addresses[0].zipCode).to.equal(homeAddress.zipCode);
     })
 });
-
-

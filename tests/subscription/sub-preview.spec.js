@@ -6,7 +6,7 @@ const fs = require('fs');
 const envNamePrefix = process.env.ENV;
 const vinService = require(__dirname + '/../../vin-service')(envNamePrefix);
 const sub_preview_schema = fs.readFileSync(__dirname + '/subscriptions-preview.schema');
-const subPreviewService = require('../../api-service/sub-preview');
+const SubPreviewService = require('../../api-service/sub-preview');
 
 var response;
 var vin;
@@ -21,6 +21,7 @@ describe(`Get Available Subscriptions API`, () => {
         });
     });
     before((done) => {
+        const subPreviewService = new SubPreviewService();
         subPreviewService.getAvailableSubscriptions(vin, (err,res)=>{
             response = res;
             if (res.body.payload) {
