@@ -35,6 +35,8 @@ describe(`Create Trial Subscription `, () => {
         account.phoneNumber = utils.randomPhoneNumber();
         const accountService = new AccountService();
         accountService.createAccount(account, (err,res) => {
+            console.log(JSON.stringify(res.body));
+            console.log('****************');
             if (res.body.payload) {
                 subscriberGuid = res.body.payload.customer.guid;
                 remoteUserGuid = subscriberGuid;

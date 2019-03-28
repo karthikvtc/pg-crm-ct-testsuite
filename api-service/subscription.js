@@ -19,6 +19,8 @@ const service = function () {
     return {
         createSubscription: (data, done) => {
             const api = supertest(config.orchestrationApiBaseUrl);
+            console.log(headers);
+            console.log(data);
             api.post(config.subscriptionEndPoint)
                 .set(headers)
                 .send(data)

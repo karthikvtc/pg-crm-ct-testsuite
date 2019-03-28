@@ -9,7 +9,7 @@
     "subPreviewEndPoint": "/v1/subscriptions",
     "subscriptionEndPoint": "/subscription/v1/subscriptions",
 
-    "zuoraPreviewUrl": "https://zuorapreview.dev.telematicsct.com",
+    "zuoraPreviewUrl": "https://zpreview.dev.telematicsct.com",
     "zuoraPreviewEndPoint": "/v1/preview"
 }
 
