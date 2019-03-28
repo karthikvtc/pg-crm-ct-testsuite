@@ -52,9 +52,8 @@ describe(`Create Trial Subscription `, () => {
     });
     before((done) => {
         data.vin = vin;
-        data.waiver = true;
         data.subscriberGuid = subscriberGuid;
-        data.remoteUserGuid = remoteUserGuid;
+       // data.remoteUserGuid = remoteUserGuid;
         data.subscriptions = subscriptions.filter((s)=>{return s.type === 'Trial'});
         subscriptionService.createSubscription(data, (err, res) => {
             if(err || res.statusCode != 200){
@@ -66,7 +65,6 @@ describe(`Create Trial Subscription `, () => {
             response = res;
             if(res.body) {
                 subResponse = res.body.payload;
-                console.log(subResponse);
                 if(res.body.payload && res.body.payload.subscriptions){
                     subItemResponse = res.body.payload.subscriptions[0];
                 }
@@ -87,10 +85,12 @@ describe(`Create Trial Subscription `, () => {
     it('should return more than one subscription items', () => {
         expect(subItemResponse).to.not.be.null;
     });
+
     it('should return subscriptionID in the response', () => {
         expect(subItemResponse.subscriptionID).to.exist;
         expect(subItemResponse.ratePlanID).to.not.be.empty;
     });
+
     it('should return ratePlanID in the response', () => {
         expect(subItemResponse.ratePlanID).to.exist;
         expect(subItemResponse.ratePlanID).to.not.be.empty;

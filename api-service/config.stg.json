@@ -7,6 +7,9 @@
     "subscriptionPreviewUrl": "https://spreview.stg.telematicsct.com",
     "orchestrationApiBaseUrl" : "https://orchsub.stg.telematicsct.com",
     "subPreviewEndPoint": "/v1/subscriptions",
-    "subscriptionEndPoint": "/subscription/v1/subscriptions"    
+    "subscriptionEndPoint": "/subscription/v1/subscriptions",
+
+    "zuoraPreviewUrl": "https://zuorapreview.stg.telematicsct.com",
+    "zuoraPreviewEndPoint": "/v1/preview"
 }
 

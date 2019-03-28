@@ -3,20 +3,23 @@ const supertest = require('supertest');
 const envNamePrefix = process.env.ENV;
 const config = JSON.parse(fs.readFileSync(`${__dirname}/config.${envNamePrefix.toLowerCase()}.json`));
 const apiEndPoint = config.apiEndPoint;
-config.authKey = process.env[`${envNamePrefix}_CT_ACCOUNT_AUTH_KEY`];
+config.PostAuthKey = process.env[`${envNamePrefix}_CT_CREATE_ACCOUNT_AUTH_KEY`];
+config.GetAuthKey = process.env[`${envNamePrefix}_CT_SEARCH_ACCOUNT_AUTH_KEY`];
+config.PutAuthKey = process.env[`${envNamePrefix}_CT_UPDATE_ACCOUNT_AUTH_KEY`];
 
 var headers = {
     'Accept': 'application/json',
     'Content-Type': 'application/json',
     'X-CHANNEL': 'TC_AGENT',
     'X-CORRELATIONID': '123e4567-e89b-12d3-a456-abhishek0002',
-    'Authorization': config.authKey
+    'Authorization': ''
 };
 
 const service = function () {
     return {
         createAccount: (data, done) => {
             const api = supertest(config.createAccountBaseUrl);
+            headers.Authorization = config.PostAuthKey;
             api.post(apiEndPoint)
                 .set(headers)
                 .send(data)
@@ -24,6 +27,7 @@ const service = function () {
         },
         updateAccount: (data, done) => {
             const api = supertest(config.updateAccountBaseUrl);
+            headers.Authorization = config.PutAuthKey;
            
             const payload = {
                 customer: data
@@ -35,6 +39,7 @@ const service = function () {
         },
         searchAccount: (data, done) => {
             const api = supertest(config.searchAccountBaseUrl);
+            headers.Authorization = config.GetAuthKey;
            
             if(data.email){
                 headers.Email = data.email

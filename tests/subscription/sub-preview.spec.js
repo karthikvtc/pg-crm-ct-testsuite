@@ -15,7 +15,7 @@ var availableSubscription = {};
 
 describe(`Get Available Subscriptions API`, () => {
     before((done) => {
-        vinService.createVin().then((res) => {
+        vinService.createVin(true).then((res) => {
             vin = res;
             done();
         });
@@ -25,7 +25,6 @@ describe(`Get Available Subscriptions API`, () => {
             response = res;
             if (res.body.payload) {
                 subscriptions = res.body.payload.subscriptions;
-                console.log(subscriptions);
                 availableSubscription = subscriptions[0];
             }
             done();
@@ -48,7 +47,6 @@ describe(`Get Available Subscriptions API`, () => {
     it("should have productName", () => {
         expect(availableSubscription.productName).is.exist;
         expect(availableSubscription.ratePlanID).to.not.be.empty;
-
     });
 
     it("should have productID", () => {

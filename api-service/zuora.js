@@ -10,27 +10,18 @@ var headers = {
     'X-CHANNEL': 'TC_AGENT',
     'X-CORRELATIONID': '98a82114-d859-8ffe-4f51-ffe284ab3c1f',
     'X-BRAND': 'L',
-    'Authorization': config.authKey,
-    'DATETIME': 1540232258482
+    'Authorization': '8923gf7126h44b14d3df08dd9f87a'
 };
 
 const service = function () {
     return {
-        createSubscription: (data, done) => {
-            const api = supertest(config.orchestrationApiBaseUrl);
-            api.post(config.subscriptionEndPoint)
+        getOrderPreview: (data, done) => {
+            const api = supertest(config.zuoraPreviewUrl);
+            api.post(config.zuoraPreviewEndPoint)
                 .set(headers)
                 .send(data)
                 .end(done);
-        },
-        cancelSubscription: (data, done) => {
-            const api = supertest(config.orchestrationApiBaseUrl);
-            const cancelSubEndPoint = "/subscription/v1/cancel";
-            api.put(cancelSubEndPoint)
-                .set(headers)
-                .send(data)
-                .end(done);
-        },
+        }
     }
 }
 

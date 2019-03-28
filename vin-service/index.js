@@ -4,15 +4,17 @@ const imei = require('./imei-generator');
 module.exports = function (env) {
     const config = require('./config')[env];
     const vinService = {
-        createVin: async () => {
+        createVin: async (dummy) => {
             return new Promise(async (resolve, reject) => {
                 let imei = vinService.generateIMEI();
                 let res = await vinService.generateVin();
-    
+
                 if (res && is2xxSuccess(res.statusCode)) {
                     let vin = res.body;
-                   await vinService.registerInADF(vin, imei);
-                   await vinService.registerInFDF(vin, imei);
+                    if(!dummy){
+                        await vinService.registerInADF(vin, imei);
+                        await vinService.registerInFDF(vin, imei);
+                    }
                     resolve(vin);
                 } else {
                     resolve(null);
