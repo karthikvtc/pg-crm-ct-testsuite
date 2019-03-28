@@ -12,7 +12,6 @@ const test_data = JSON.parse(fs.readFileSync(__dirname + '/subscription.data', '
 const utils = require('../../utils');
 const schema = fs.readFileSync(__dirname + '/subscription.schema');
 
-
 var response;
 var vin;
 var subscriptions = [];
@@ -21,7 +20,7 @@ var data = test_data;
 var subResponse = null;
 var subItemResponse = null;
 
-describe(`Create Subscription API`, () => {
+describe(`Create Trial Subscription `, () => {
     before((done) => {
         vinService.createVin().then((res) => {
             vin = res;
@@ -53,9 +52,10 @@ describe(`Create Subscription API`, () => {
     });
     before((done) => {
         data.vin = vin;
+        data.waiver = true;
         data.subscriberGuid = subscriberGuid;
         data.remoteUserGuid = remoteUserGuid;
-        data.subscriptions = subscriptions;
+        data.subscriptions = subscriptions.filter((s)=>{return s.type === 'Trial'});
         subscriptionService.createSubscription(data, (err, res) => {
             if(err || res.statusCode != 200){
                 console.log('-------------- REQUEST --------------');
@@ -97,8 +97,7 @@ describe(`Create Subscription API`, () => {
     });
 });
 
-
-describe(`Cancel Subscription API`, () => {
+describe(`Cancel Subscription`, () => {
     before((done) => {
         data = {};
         data.vin = vin;
