@@ -10,6 +10,9 @@
     "subscriptionEndPoint": "/subscription/v1/subscriptions",
 
     "zuoraPreviewUrl": "https://zpreview.dev.telematicsct.com",
-    "zuoraPreviewEndPoint": "/v1/preview"
+    "zuoraPreviewEndPoint": "/v1/preview",
+
+    "racUrl": "https://rac.dev.telematicsct.com",
+    "racEndPoint": "/authcode/v1/remote"
 }
 

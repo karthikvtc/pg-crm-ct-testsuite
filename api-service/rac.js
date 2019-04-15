@@ -4,7 +4,7 @@ const supertest = require('supertest');
 const service = function () {
     const envNamePrefix = process.env.ENV;
     const config = JSON.parse(fs.readFileSync(`${__dirname}/config.${envNamePrefix.toLowerCase()}.json`));
-    config.authKey = process.env[`${envNamePrefix}_CT_SUBSCRIPTION_AUTH_KEY`];
+    config.authKey = process.env[`${envNamePrefix}_CT_RAC_AUTH_KEY`];
     var headers = {
         'Content-Type': 'application/json',
         'X-CHANNEL': 'TC_AGENT',
@@ -14,21 +14,13 @@ const service = function () {
         'DATETIME': 1540232258482
     };
     return {
-        createSubscription: (data, done) => {
-            const api = supertest(config.orchestrationApiBaseUrl);
-            api.post(config.subscriptionEndPoint)
+        createRAC: (data, done) => {
+            const api = supertest(config.racUrl);
+            api.post(config.racEndPoint)
                 .set(headers)
                 .send(data)
                 .end(done);
-        },
-        cancelSubscription: (data, done) => {
-            const api = supertest(config.orchestrationApiBaseUrl);
-            const cancelSubEndPoint = "/subscription/v1/cancel";
-            api.put(cancelSubEndPoint)
-                .set(headers)
-                .send(data)
-                .end(done);
-        },
+        }
     }
 }
 
