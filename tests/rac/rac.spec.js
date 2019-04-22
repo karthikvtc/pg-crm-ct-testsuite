@@ -76,7 +76,7 @@ describe(`Remote Auth Code`, () => {
         });
     });
 
-    describe('By Email', ()=>{
+    describe('Send Remote Auth Code By Email', ()=>{
         before((done) => {
             const racService = new RacService();
             var request = {
@@ -103,7 +103,7 @@ describe(`Remote Auth Code`, () => {
         });
     });
 
-    describe('By Phone', ()=>{
+    describe('Send Remote Auth Code By Phone', ()=>{
         before((done) => {
             const racService = new RacService();
             var request = {
@@ -130,7 +130,7 @@ describe(`Remote Auth Code`, () => {
         });
     })
    
-    describe('Override', ()=>{
+    describe('Override Remote Auth Code', ()=>{
         before((done) => {
             const racService = new RacService();
             var request = {

@@ -46,7 +46,7 @@ describe(`Generate Zuora Preview API`, () => {
             city: 'Plano',
             state: 'Texas',
             country: 'United States',
-            orderDate: "2019-04-04",
+            orderDate: "2018-12-12",
             "subscriptions": [
                 {
                   "ratePlanID": "8adc8f996564fdb801656724bf3b389d",
