@@ -62,6 +62,8 @@ describe(`Create Trial Subscription `, () => {
 
         subscriptionService.createSubscription(data, (err, res) => {
             if(err || res.statusCode != 200){
+                process.env.API_NAME = 'CREATE SUBSCRIPTION';
+
                 process.env.REQUEST_PAYLOAD = JSON.stringify(data);
                 process.env.RESPONSE_PAYLOAD = JSON.stringify(res.body);
             }
@@ -106,6 +108,8 @@ describe(`Cancel Subscription`, () => {
 
         subscriptionService.cancelSubscription(data, (err, res) => {
             if(err || res.statusCode != 200){
+                process.env.API_NAME = 'CANCEL SUBSCRIPTION';
+
                 process.env.REQUEST_PAYLOAD = JSON.stringify(data);
                 process.env.RESPONSE_PAYLOAD = JSON.stringify(res.body);
             }

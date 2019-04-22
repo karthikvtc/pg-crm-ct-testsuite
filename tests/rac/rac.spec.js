@@ -91,6 +91,8 @@ describe(`Remote Auth Code`, () => {
             racService.createRAC(request, (err, res) => {
                 response = res;
                 if(err || res.statusCode != 200){
+                    process.env.API_NAME = 'SEND RAC';
+
                     process.env.REQUEST_PAYLOAD = JSON.stringify(request);
                     process.env.RESPONSE_PAYLOAD = JSON.stringify(res.body);
                 }
@@ -118,6 +120,8 @@ describe(`Remote Auth Code`, () => {
             racService.createRAC(request, (err, res) => {
                 response = res;
                 if(err || res.statusCode != 200){
+                    process.env.API_NAME = 'SEND RAC';
+
                     process.env.REQUEST_PAYLOAD = JSON.stringify(request);
                     process.env.RESPONSE_PAYLOAD = JSON.stringify(res.body);
                 }
@@ -145,6 +149,8 @@ describe(`Remote Auth Code`, () => {
             racService.createRAC(request, (err, res) => {
                 response = res;
                 if(err || res.statusCode != 200){
+                    process.env.API_NAME = 'OVERRIDE RAC';
+
                     process.env.REQUEST_PAYLOAD = JSON.stringify(request);
                     process.env.RESPONSE_PAYLOAD = JSON.stringify(res.body);
                 }

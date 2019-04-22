@@ -24,6 +24,8 @@ describe(`Get Available Subscriptions API`, () => {
         const subPreviewService = new SubPreviewService();
         subPreviewService.getAvailableSubscriptions(vin, (err,res)=>{
             if(err || res.statusCode != 200){
+                process.env.API_NAME = 'GET SUB PREVIEW';
+
                 process.env.RESPONSE_PAYLOAD = JSON.stringify(res.body);
             }
             response = res;

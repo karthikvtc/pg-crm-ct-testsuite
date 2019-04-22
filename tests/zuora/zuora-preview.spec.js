@@ -61,6 +61,8 @@ describe(`Generate Zuora Preview API`, () => {
         zuoraPreviewService.getPreview(request, (err, res) => {
             response = res;
             if(err || res.statusCode != 200){
+                process.env.API_NAME = 'GET ZUORA PREVIEW';
+
                 process.env.REQUEST_PAYLOAD = JSON.stringify(request);
                 process.env.RESPONSE_PAYLOAD = JSON.stringify(res.body);
                 console.log(process.env.REQUEST_PAYLOAD);

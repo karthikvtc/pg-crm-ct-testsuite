@@ -20,6 +20,8 @@ describe(`Create account API`, () => {
         accountService.createAccount(data, (err, res)=>{
             response = res;
             if(err || res.statusCode != 200){
+                process.env.API_NAME = 'CREATE ACCOUNT';
+
                 process.env.REQUEST_PAYLOAD = JSON.stringify(data);
                 process.env.RESPONSE_PAYLOAD = JSON.stringify(res.body);
             }
@@ -58,6 +60,8 @@ describe(`Search account by email`, () => {
         accountService.searchAccount(data, (err,res)=>{
             response = res;
             if(err || res.statusCode != 200){
+                process.env.API_NAME = 'SEARCH ACCOUNT';
+
                 process.env.REQUEST_PAYLOAD = JSON.stringify(data);
                 process.env.RESPONSE_PAYLOAD = JSON.stringify(res.body);
             }
@@ -86,6 +90,8 @@ describe(`Search account by phone number`, () => {
         accountService.searchAccount(data, (err,res)=>{
             response = res;
             if(err || res.statusCode != 200){
+                process.env.API_NAME = 'SEARCH ACCOUNT';
+
                 process.env.REQUEST_PAYLOAD = JSON.stringify(data);
                 process.env.RESPONSE_PAYLOAD = JSON.stringify(res.body);
             }
@@ -133,6 +139,8 @@ describe(`Update account API`, () => {
                 account = response.body.payload.customer;
             }
             if(err || res.statusCode != 200){
+                process.env.API_NAME = 'UPDATE ACCOUNT';
+
                 process.env.REQUEST_PAYLOAD = JSON.stringify(data);
                 process.env.RESPONSE_PAYLOAD = JSON.stringify(res.body);
             }
