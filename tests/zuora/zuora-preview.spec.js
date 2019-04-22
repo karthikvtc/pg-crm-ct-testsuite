@@ -32,6 +32,7 @@ describe(`Generate Zuora Preview API`, () => {
                         return {
                             ratePlanID:x.ratePlanID,
                             period: x.term,
+                            subscriptionStartDate: x.subscriptionStartDate,
                             periodType: x.termUnit === 'MTH' ? 'Month' : 'Days'
                         }
                     });
@@ -56,11 +57,14 @@ describe(`Generate Zuora Preview API`, () => {
               ]
         };
         request.subscriptions = subscriptions;
+        request.orderDate = new Date().toISOString().split(/T/)[0];
         zuoraPreviewService.getPreview(request, (err, res) => {
             response = res;
             if(err || res.statusCode != 200){
                 process.env.REQUEST_PAYLOAD = JSON.stringify(request);
                 process.env.RESPONSE_PAYLOAD = JSON.stringify(res.body);
+                console.log(process.env.REQUEST_PAYLOAD);
+                console.log(process.env.RESPONSE_PAYLOAD);
             }
             if (res.body.payload) {
                 payload = res.body.payload;
