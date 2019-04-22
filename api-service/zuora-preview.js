@@ -19,6 +19,8 @@ const service = function () {
     return {
         getPreview: (data, done) => {
             const api = supertest(config.zuoraPreviewUrl);
+            process.env.REQUEST_HEADERS = JSON.stringify(headers);
+
             api.post(config.zuoraPreviewEndPoint)
                 .set(headers)
                 .send(data)

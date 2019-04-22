@@ -2,7 +2,6 @@ require('dotenv').config();
 const expect = require('chai').expect;
 const tv4 = require('tv4');
 const fs = require('fs');
-const schema = fs.readFileSync(__dirname + '/create-account.schema');
 const test_data = JSON.parse(fs.readFileSync(__dirname + '/account.data', 'utf8'));
 const utils = require('../../utils');
 const AccountService = require('../../api-service/account');
@@ -20,6 +19,10 @@ describe(`Create account API`, () => {
         const accountService = new AccountService();
         accountService.createAccount(data, (err, res)=>{
             response = res;
+            if(err || res.statusCode != 200){
+                process.env.REQUEST_PAYLOAD = JSON.stringify(data);
+                process.env.RESPONSE_PAYLOAD = JSON.stringify(res.body);
+            }
             if (res.body.payload) {
                 account = res.body.payload.customer;
             }
@@ -54,6 +57,10 @@ describe(`Search account by email`, () => {
 
         accountService.searchAccount(data, (err,res)=>{
             response = res;
+            if(err || res.statusCode != 200){
+                process.env.REQUEST_PAYLOAD = JSON.stringify(data);
+                process.env.RESPONSE_PAYLOAD = JSON.stringify(res.body);
+            }
             if(response.body.payload){
                 accountFound = response.body.payload.customer;
             }
@@ -78,6 +85,10 @@ describe(`Search account by phone number`, () => {
         const accountService = new AccountService();
         accountService.searchAccount(data, (err,res)=>{
             response = res;
+            if(err || res.statusCode != 200){
+                process.env.REQUEST_PAYLOAD = JSON.stringify(data);
+                process.env.RESPONSE_PAYLOAD = JSON.stringify(res.body);
+            }
             if(response.body.payload){
                 accountFound = response.body.payload.customer;
             }
@@ -120,6 +131,10 @@ describe(`Update account API`, () => {
             response = res;
             if(response.body.payload){
                 account = response.body.payload.customer;
+            }
+            if(err || res.statusCode != 200){
+                process.env.REQUEST_PAYLOAD = JSON.stringify(data);
+                process.env.RESPONSE_PAYLOAD = JSON.stringify(res.body);
             }
             done();
         });

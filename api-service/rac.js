@@ -16,6 +16,7 @@ const service = function () {
     return {
         createRAC: (data, done) => {
             const api = supertest(config.racUrl);
+            process.env.REQUEST_HEADERS = JSON.stringify(headers);
             api.post(config.racEndPoint)
                 .set(headers)
                 .send(data)

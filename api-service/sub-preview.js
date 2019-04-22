@@ -25,6 +25,8 @@ const service = function () {
             const subPreviewEndPoint = `${config.subPreviewEndPoint}/${vin}`;
             const api = supertest(config.subscriptionPreviewUrl);
             headers.vin = vin;
+            process.env.REQUEST_HEADERS = JSON.stringify(headers);
+
             api.get(subPreviewEndPoint)
                 .set(headers)
                 .end(done)

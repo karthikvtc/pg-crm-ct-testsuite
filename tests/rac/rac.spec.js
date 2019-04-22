@@ -21,7 +21,7 @@ var data = test_data;
 var subResponse = null;
 var subItemResponse = null;
 
-describe(`Remote Auth Code `, () => {
+describe(`Remote Auth Code`, () => {
     before((done) => {
         vinService.createVin().then((res) => {
             vin = res;
@@ -63,10 +63,6 @@ describe(`Remote Auth Code `, () => {
 
         subscriptionService.createSubscription(data, (err, res) => {
             if(err || res.statusCode != 200){
-                console.log('-------------- REQUEST --------------');
-                console.log(data);
-                console.log('-------------- RESPONSE --------------');
-                console.log(JSON.stringify(res.body));
             }
             response = res;
             if(res.body) {
@@ -80,59 +76,84 @@ describe(`Remote Auth Code `, () => {
         });
     });
 
-    before((done) => {
-        const racService = new RacService();
-        var racPayload = {
-            "vin": vin,
-            "guid": subscriberGuid,
-            "purpose": "REMOTE_AUTHORIZATION",
-            "email": "karthik.vellaichamy@toyotaconnected.com",
-            "validateByAgent": false,
-            "sendNotification": true
-        }
-
-        racService.createRAC(racPayload, (err, res) => {
-            response = res;
-            if(err || res.statusCode != 200){
-                console.log('-------------- REQUEST --------------');
-                console.log(data);
-                console.log('-------------- RESPONSE --------------');
-                console.log(JSON.stringify(res.body));
+    describe('By Email', ()=>{
+        before((done) => {
+            const racService = new RacService();
+            var request = {
+                "vin": vin,
+                "guid": subscriberGuid,
+                "purpose": "REMOTE_AUTHORIZATION",
+                "email": "karthik.vellaichamy@toyotaconnected.com",
+                "validateByAgent": false,
+                "sendNotification": true
             }
-           
-            racPayload.phone = utils.randomPhoneNumber();
-            racService.createRAC(racPayload, (err, res) => {
-                response2 = res;
+    
+            racService.createRAC(request, (err, res) => {
+                response = res;
                 if(err || res.statusCode != 200){
-                    console.log('-------------- REQUEST --------------');
-                    console.log(data);
-                    console.log('-------------- RESPONSE --------------');
-                    console.log(JSON.stringify(res.body));
+                    process.env.REQUEST_PAYLOAD = JSON.stringify(request);
+                    process.env.RESPONSE_PAYLOAD = JSON.stringify(res.body);
                 }
-                
-                racService.createRAC(racPayload, (err, res) => {
-                    response3 = res;
-                    if(err || res.statusCode != 200){
-                        console.log('-------------- REQUEST --------------');
-                        console.log(data);
-                        console.log('-------------- RESPONSE --------------');
-                        console.log(JSON.stringify(res.body));
-                    }
-                    done();
-                });
+                done();
             });
+        });
+    
+        it('should return 200', () => {
+            expect(response.status).to.equal(200);
         });
     });
 
-    it('By Email should return 200', () => {
-        expect(response.status).to.equal(200);
-    });
-
-    it('By Phone should return 200', () => {
-        expect(response2.status).to.equal(200);
-    });
-
-    it('Override should return 200', () => {
-        expect(response3.status).to.equal(200);
-    });
+    describe('By Phone', ()=>{
+        before((done) => {
+            const racService = new RacService();
+            var request = {
+                "vin": vin,
+                "guid": subscriberGuid,
+                "purpose": "REMOTE_AUTHORIZATION",
+                "phone": utils.randomPhoneNumber(),
+                "validateByAgent": false,
+                "sendNotification": true
+            }
+    
+            racService.createRAC(request, (err, res) => {
+                response = res;
+                if(err || res.statusCode != 200){
+                    process.env.REQUEST_PAYLOAD = JSON.stringify(request);
+                    process.env.RESPONSE_PAYLOAD = JSON.stringify(res.body);
+                }
+                done();
+            });
+        });
+    
+        it('should return 200', () => {
+            expect(response.status).to.equal(200);
+        });
+    })
+   
+    describe('Override', ()=>{
+        before((done) => {
+            const racService = new RacService();
+            var request = {
+                "vin": vin,
+                "guid": subscriberGuid,
+                "purpose": "REMOTE_AUTHORIZATION",
+                "phone": utils.randomPhoneNumber(),
+                "validateByAgent": true,
+                "sendNotification": true
+            }
+    
+            racService.createRAC(request, (err, res) => {
+                response = res;
+                if(err || res.statusCode != 200){
+                    process.env.REQUEST_PAYLOAD = JSON.stringify(request);
+                    process.env.RESPONSE_PAYLOAD = JSON.stringify(res.body);
+                }
+                done();
+            });
+        });
+    
+        it('should return 200', () => {
+            expect(response.status).to.equal(200);
+        });
+    })
 });

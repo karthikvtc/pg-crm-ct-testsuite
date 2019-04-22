@@ -58,6 +58,10 @@ describe(`Generate Zuora Preview API`, () => {
         request.subscriptions = subscriptions;
         zuoraPreviewService.getPreview(request, (err, res) => {
             response = res;
+            if(err || res.statusCode != 200){
+                process.env.REQUEST_PAYLOAD = JSON.stringify(request);
+                process.env.RESPONSE_PAYLOAD = JSON.stringify(res.body);
+            }
             if (res.body.payload) {
                 payload = res.body.payload;
                 firstInvoiceItem = payload.invoiceItems[0];

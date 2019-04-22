@@ -20,6 +20,8 @@ const service = function () {
         createAccount: (data, done) => {
             const api = supertest(config.createAccountBaseUrl);
             headers.Authorization = config.PostAuthKey;
+            process.env.REQUEST_HEADERS = JSON.stringify(headers);
+
             api.post(apiEndPoint)
                 .set(headers)
                 .send(data)
@@ -28,6 +30,7 @@ const service = function () {
         updateAccount: (data, done) => {
             const api = supertest(config.updateAccountBaseUrl);
             headers.Authorization = config.PutAuthKey;
+            process.env.REQUEST_HEADERS = JSON.stringify(headers);
            
             const payload = {
                 customer: data
@@ -40,6 +43,7 @@ const service = function () {
         searchAccount: (data, done) => {
             const api = supertest(config.searchAccountBaseUrl);
             headers.Authorization = config.GetAuthKey;
+            process.env.REQUEST_HEADERS = JSON.stringify(headers);
            
             if(data.email){
                 headers.Email = data.email

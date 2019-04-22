@@ -35,8 +35,6 @@ describe(`Create Trial Subscription `, () => {
         account.phoneNumber = utils.randomPhoneNumber();
         const accountService = new AccountService();
         accountService.createAccount(account, (err,res) => {
-            console.log(JSON.stringify(res.body));
-            console.log('****************');
             if (res.body.payload) {
                 subscriberGuid = res.body.payload.customer.guid;
                 remoteUserGuid = subscriberGuid;
@@ -64,10 +62,8 @@ describe(`Create Trial Subscription `, () => {
 
         subscriptionService.createSubscription(data, (err, res) => {
             if(err || res.statusCode != 200){
-                console.log('-------------- REQUEST --------------');
-                console.log(data);
-                console.log('-------------- RESPONSE --------------');
-                console.log(JSON.stringify(res.body));
+                process.env.REQUEST_PAYLOAD = JSON.stringify(data);
+                process.env.RESPONSE_PAYLOAD = JSON.stringify(res.body);
             }
             response = res;
             if(res.body) {
@@ -83,10 +79,6 @@ describe(`Create Trial Subscription `, () => {
 
     it('should return 200', () => {
         expect(response.status).to.equal(200);
-    });
-
-    it('should return a valid payload', () => {
-        expect(subResponse).to.not.be.null;
     });
 
     it('should return more than one subscription items', () => {
@@ -114,9 +106,8 @@ describe(`Cancel Subscription`, () => {
 
         subscriptionService.cancelSubscription(data, (err, res) => {
             if(err || res.statusCode != 200){
-                console.log(err);
-                console.log(data);
-                console.log(JSON.stringify(res.body));
+                process.env.REQUEST_PAYLOAD = JSON.stringify(data);
+                process.env.RESPONSE_PAYLOAD = JSON.stringify(res.body);
             }
             response = res;
             done();
@@ -125,9 +116,5 @@ describe(`Cancel Subscription`, () => {
  
     it('should return 200', () => {
         expect(response.status).to.equal(200);
-    });
-
-    it('should match the schema', async () => {
-        expect(await tv4.validate(subscriptions, schema)).to.be.true;
     });
 });

@@ -16,6 +16,7 @@ const service = function () {
     return {
         createSubscription: (data, done) => {
             const api = supertest(config.orchestrationApiBaseUrl);
+            process.env.REQUEST_HEADERS = JSON.stringify(headers);
             api.post(config.subscriptionEndPoint)
                 .set(headers)
                 .send(data)
@@ -23,6 +24,7 @@ const service = function () {
         },
         cancelSubscription: (data, done) => {
             const api = supertest(config.orchestrationApiBaseUrl);
+            process.env.REQUEST_HEADERS = JSON.stringify(headers);
             const cancelSubEndPoint = "/subscription/v1/cancel";
             api.put(cancelSubEndPoint)
                 .set(headers)
