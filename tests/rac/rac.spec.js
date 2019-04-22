@@ -13,7 +13,7 @@ const AccountService = require('../../api-service/account');
 const test_data = JSON.parse(fs.readFileSync(__dirname + '/../subscription/subscription.data', 'utf8'));
 const utils = require('../../utils');
 
-var response, response2;
+var response, response2, response3;
 var vin;
 var subscriptions = [];
 var subscriberGuid, remoteUserGuid;
@@ -21,7 +21,7 @@ var data = test_data;
 var subResponse = null;
 var subItemResponse = null;
 
-describe(`Send Auth Code For Remote Services`, () => {
+describe(`Remote Auth Code `, () => {
     before((done) => {
         vinService.createVin().then((res) => {
             vin = res;
@@ -36,8 +36,6 @@ describe(`Send Auth Code For Remote Services`, () => {
         account.phoneNumber = utils.randomPhoneNumber();
         const accountService = new AccountService();
         accountService.createAccount(account, (err,res) => {
-            //console.log(JSON.stringify(res.body));
-            //console.log('****************');
             if (res.body.payload) {
                 subscriberGuid = res.body.payload.customer.guid;
                 remoteUserGuid = subscriberGuid;
@@ -102,7 +100,7 @@ describe(`Send Auth Code For Remote Services`, () => {
                 console.log(JSON.stringify(res.body));
             }
            
-            racPayload.validateByAgent = true;
+            racPayload.phone = utils.randomPhoneNumber();
             racService.createRAC(racPayload, (err, res) => {
                 response2 = res;
                 if(err || res.statusCode != 200){
@@ -111,17 +109,30 @@ describe(`Send Auth Code For Remote Services`, () => {
                     console.log('-------------- RESPONSE --------------');
                     console.log(JSON.stringify(res.body));
                 }
-                done();
+                
+                racService.createRAC(racPayload, (err, res) => {
+                    response3 = res;
+                    if(err || res.statusCode != 200){
+                        console.log('-------------- REQUEST --------------');
+                        console.log(data);
+                        console.log('-------------- RESPONSE --------------');
+                        console.log(JSON.stringify(res.body));
+                    }
+                    done();
+                });
             });
-            
         });
     });
 
-    it('trigger should return 200', () => {
+    it('By Email should return 200', () => {
         expect(response.status).to.equal(200);
     });
 
-    it('override should return 200', () => {
+    it('By Phone should return 200', () => {
         expect(response2.status).to.equal(200);
+    });
+
+    it('Override should return 200', () => {
+        expect(response3.status).to.equal(200);
     });
 });

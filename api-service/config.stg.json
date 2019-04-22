@@ -9,7 +9,7 @@
     "subPreviewEndPoint": "/v1/subscriptions",
     "subscriptionEndPoint": "/subscription/v1/subscriptions",
 
-    "zuoraPreviewUrl": "https://zuorapreview.stg.telematicsct.com",
+    "zuoraPreviewUrl": "https://zpreview.stg.telematicsct.com",
     "zuoraPreviewEndPoint": "/v1/preview",
 
     "racUrl": "https://rac.stg.telematicsct.com",

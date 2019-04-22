@@ -27,15 +27,14 @@ describe(`Generate Zuora Preview API`, () => {
             if (res.body.payload) {
                 //console.log(res.body.payload.subscriptions);
                 subscriptions = res.body.payload.subscriptions
-                    .filter((x) => { return x.type == 'Trial' })
+                    .filter((x) => { return x.type == 'Paid' })
                     .map((x) => {
                         return {
                             ratePlanID:x.ratePlanID,
                             period: x.term,
-                            periodType: x.termUnit
+                            periodType: x.termUnit === 'MTH' ? 'Month' : 'Days'
                         }
                     });
-               
             }
             done();
         });
@@ -47,7 +46,7 @@ describe(`Generate Zuora Preview API`, () => {
             city: 'Plano',
             state: 'Texas',
             country: 'United States',
-            orderDate: "2018-12-12",
+            orderDate: "2019-04-04",
             "subscriptions": [
                 {
                   "ratePlanID": "8adc8f996564fdb801656724bf3b389d",
@@ -56,7 +55,7 @@ describe(`Generate Zuora Preview API`, () => {
                 }
               ]
         };
-       // request.subscriptions = subscriptions;
+        request.subscriptions = subscriptions;
         zuoraPreviewService.getPreview(request, (err, res) => {
             response = res;
             if (res.body.payload) {
@@ -97,5 +96,4 @@ describe(`Generate Zuora Preview API`, () => {
     it("should have taxAmount in firstInvoiceItem", () => {
         expect(firstInvoiceItem.taxAmount).is.exist;
     });
-
 });

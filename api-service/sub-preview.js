@@ -12,7 +12,7 @@ const service = function () {
         'X-CHANNEL': 'TC_AGENT',
         'X-CORRELATIONID': '123e4567-e89b-12d3-a456-abhishek0002',
         'X-BRAND': 'L',
-        'asi-code': 'AB',
+        'asi-code': 'AS',
         'hw-type': '010',
         'generation': '17CYPLUS',
         'region': 'US',
