@@ -1,7 +1,13 @@
     module.exports = function() {
         return {
             randomStr: function (num) {
-                return Math.random().toString(36).substring(num);
+                var result           = '';
+                var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
+                var charactersLength = characters.length;
+                for ( var i = 0; i < num; i++ ) {
+                   result += characters.charAt(Math.floor(Math.random() * charactersLength));
+                }
+                return result;
             },
             randomPhoneNumber: function(){
                 return parseInt(Math.random().toString().slice(2,12));
