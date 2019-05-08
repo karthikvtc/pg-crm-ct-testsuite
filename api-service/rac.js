@@ -21,6 +21,16 @@ const service = function () {
                 .set(headers)
                 .send(data)
                 .end(done);
+        },
+        overrideRAC: (data, done) => {
+            const api = supertest(config.overrideRACUrl);
+            headers.Authorization =process.env[`${envNamePrefix}_CT_OVERRIDE_RAC_AUTH_KEY`];
+            console.log(headers);
+            process.env.REQUEST_HEADERS = JSON.stringify(headers);
+            api.post(config.overrideRACEndPoint)
+                .set(headers)
+                .send(data)
+                .end(done);
         }
     }
 }

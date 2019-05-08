@@ -139,14 +139,10 @@ describe(`Remote Auth Code`, () => {
             const racService = new RacService();
             var request = {
                 "vin": vin,
-                "guid": subscriberGuid,
-                "purpose": "REMOTE_AUTHORIZATION",
-                "phone": utils.randomPhoneNumber(),
-                "validateByAgent": true,
-                "sendNotification": true
+                "guid": subscriberGuid
             }
     
-            racService.createRAC(request, (err, res) => {
+            racService.overrideRAC(request, (err, res) => {
                 response = res;
                 if(err || res.statusCode != 200){
                     process.env.API_NAME = 'OVERRIDE RAC';

@@ -13,6 +13,9 @@
     "zuoraPreviewEndPoint": "/v1/preview",
 
     "racUrl": "https://rac.stg.telematicsct.com",
-    "racEndPoint": "/authcode/v1/remote"
+    "racEndPoint": "/authcode/v1/remote",
+
+    "overrideRACUrl": "https://orchrac.stg.telematicsct.com",
+    "overrideRACEndPoint": "/provisioning/v1/remote"
 }
 
