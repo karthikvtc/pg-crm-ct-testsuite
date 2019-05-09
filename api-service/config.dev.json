@@ -16,6 +16,6 @@
     "racEndPoint": "/authcode/v1/remote",
 
     "overrideRACUrl": "https://orchrac.dev.telematicsct.com",
-    "overrideRACEndPoint": "/provisioning/v1/remote"
+    "overrideRACEndPoint": "/authcode/v1/remote"
 }
 

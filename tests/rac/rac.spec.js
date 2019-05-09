@@ -139,7 +139,8 @@ describe(`Remote Auth Code`, () => {
             const racService = new RacService();
             var request = {
                 "vin": vin,
-                "guid": subscriberGuid
+                "guid": subscriberGuid,
+                "purpose": "REMOTE_AUTHORIZATION"
             }
     
             racService.overrideRAC(request, (err, res) => {
