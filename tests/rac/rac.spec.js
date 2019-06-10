@@ -137,17 +137,21 @@ describe(`Remote Auth Code`, () => {
     describe('Override Remote Auth Code', ()=>{
         before((done) => {
             const racService = new RacService();
-            var request = {
-                "vin": vin,
-                "guid": subscriberGuid,
-                "purpose": "REMOTE_AUTHORIZATION"
-            }
+            var request = {"correlationId":"f465b0fc-1830-4797-a0a0-dbb85b9885f1",
+            "brandPrefix":null,"vin":"1FTYR10DX9PA32428",
+            "validateByAgent":true,
+            "sendNotification":true,
+            "purpose":"REMOTE_AUTHORIZATION",
+            "phone":null,
+            "guid":"5bfca75ec0ce4ae388273faff2a6ec2e",
+            "email":null
+        }
     
             racService.overrideRAC(request, (err, res) => {
                 response = res;
                 if(err || res.statusCode != 200){
                     process.env.API_NAME = 'OVERRIDE RAC';
-
+                    console.log(res.body);
                     process.env.REQUEST_PAYLOAD = JSON.stringify(request);
                     process.env.RESPONSE_PAYLOAD = JSON.stringify(res.body);
                 }
