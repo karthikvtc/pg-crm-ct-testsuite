@@ -11,7 +11,8 @@ const AccountService = require('../../api-service/account');
 const test_data = JSON.parse(fs.readFileSync(__dirname + '/subscription.data', 'utf8'));
 const utils = require('../../utils');
 const schema = fs.readFileSync(__dirname + '/subscription.schema');
-
+const OAuthService = require('../../api-service/oauth');
+var oAuthToken;
 var response;
 var vin;
 var subscriptions = [];
@@ -21,6 +22,21 @@ var subResponse = null;
 var subItemResponse = null;
 
 describe(`Create Trial Subscription `, () => {
+    before((done) => {
+        const envNamePrefix = process.env.OAUTH;
+        if(process.env.OAUTH == true){
+            const oauthService = new OAuthService(oAuthToken);
+            oauthService.getAuthToken((err,res) => {
+                console.log(res.body.access_token);
+                if(res.body){
+                    oAuthToken = res.body.access_token;
+                }
+                done();
+            });
+        } else {
+            done();
+        }
+    });
     before((done) => {
         vinService.createVin().then((res) => {
             vin = res;

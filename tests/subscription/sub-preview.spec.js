@@ -7,13 +7,30 @@ const envNamePrefix = process.env.ENV;
 const vinService = require(__dirname + '/../../vin-service')(envNamePrefix);
 const sub_preview_schema = fs.readFileSync(__dirname + '/subscriptions-preview.schema');
 const SubPreviewService = require('../../api-service/sub-preview');
+const OAuthService = require('../../api-service/oauth');
 
 var response;
 var vin;
 var subscriptions = {};
 var availableSubscription = {};
+var oAuthToken;
 
 describe(`Get Available Subscriptions API`, () => {
+    before((done) => {
+        const envNamePrefix = process.env.OAUTH;
+        if(process.env.OAUTH == true){
+            const oauthService = new OAuthService();
+            oauthService.getAuthToken((err,res) => {
+                console.log(res.body.access_token);
+                if(res.body){
+                    oAuthToken = res.body.access_token;
+                }
+                done();
+            });
+        } else {
+            done();
+        }
+    });
     before((done) => {
         vinService.createVin(true).then((res) => {
             vin = res;
@@ -21,12 +38,12 @@ describe(`Get Available Subscriptions API`, () => {
         });
     });
     before((done) => {
-        const subPreviewService = new SubPreviewService();
+        const subPreviewService = new SubPreviewService(oAuthToken);
         subPreviewService.getAvailableSubscriptions(vin, (err,res)=>{
             if(err || res.statusCode != 200){
                 process.env.API_NAME = 'GET SUB PREVIEW';
-
                 process.env.RESPONSE_PAYLOAD = JSON.stringify(res.body);
+                console.log(process.env.RESPONSE_PAYLOAD);
             }
             response = res;
             if (res.body.payload) {

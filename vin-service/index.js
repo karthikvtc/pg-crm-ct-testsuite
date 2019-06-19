@@ -43,7 +43,7 @@ module.exports = function (env) {
 
         registerInFDF: async (vin, imei) => {
             let payload = {
-                "hardwareType": "011",
+                "hardwareType": "010",
                 "dcmModelYear": "19",
                 "manufacturedDate": "2018-12-09",
                 "colorCode": "02PT",
@@ -54,7 +54,7 @@ module.exports = function (env) {
                 "modelDescription": "CAMRY 4-DOOR XSE V6 SEDAN",
                 "regionCode": "800",
                 "brandCode": "TOY",
-                "asiCode": "AB",
+                "asiCode": "AP",
                 "katashikiCode": "ZET03003050383057283",
                 "countryCode": "104",
                 "plantCode": "U",
@@ -98,7 +98,7 @@ module.exports = function (env) {
                 "dcmGrade": "1",
                 "euiccid": "17165424425181764875667666853541",
                 "vehicleUnitTerminalNumber": "00000000000000000",
-                "hardwareType": "011",
+                "hardwareType": "010",
                 "imei": imei,
                 "oldImei": ""
             };

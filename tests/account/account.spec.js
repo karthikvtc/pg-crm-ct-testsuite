@@ -5,10 +5,12 @@ const fs = require('fs');
 const test_data = JSON.parse(fs.readFileSync(__dirname + '/account.data', 'utf8'));
 const utils = require('../../utils');
 const AccountService = require('../../api-service/account');
-
+const OAuthService = require('../../api-service/oauth');
+var oAuthToken;
 var response;
 var account = {};
 var data = test_data;
+
 data.firstName = utils.randomStr(5);
 data.lastName = utils.randomStr(5);
 data.email = `${data.lastName}@test.com`;
@@ -16,9 +18,25 @@ data.phoneNumber = utils.randomPhoneNumber();
 
 describe(`Create account API`, () => {
     before((done) => {
-        const accountService = new AccountService();
+        const envNamePrefix = process.env.OAUTH;
+        if(process.env.OAUTH == true){
+            const oauthService = new OAuthService();
+            oauthService.getAuthToken((err,res) => {
+                console.log(res.body.access_token);
+                if(res.body){
+                    oAuthToken = res.body.access_token;
+                }
+                done();
+            });
+        } else {
+            done();
+        }
+    });
+    before((done) => {
+        const accountService = new AccountService(oAuthToken);
         accountService.createAccount(data, (err, res)=>{
             response = res;
+            console.log(JSON.stringify(res.body));
             if(err || res.statusCode != 200){
                 process.env.API_NAME = 'CREATE ACCOUNT';
 

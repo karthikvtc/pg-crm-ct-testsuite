@@ -4,7 +4,7 @@
     "updateAccountBaseUrl": "https://orchcu.qa.telematicsct.com",
     "apiEndPoint": "/v1/account",
 
-    "subscriptionPreviewUrl": "https://spreview.qa.telematicsct.com",
+    "subscriptionPreviewUrl": "https://api.stg.telematicsct.com",
     "orchestrationApiBaseUrl" : "https://orchsub.qa.telematicsct.com",
     "subPreviewEndPoint": "/v1/subscriptions",
     "subscriptionEndPoint": "/subscription/v1/subscriptions",
@@ -16,6 +16,10 @@
     "racEndPoint": "/authcode/v1/remote",
 
     "overrideRACUrl": "https://orchrac.qa.telematicsct.com",
-    "overrideRACEndPoint": "/authcode/v1/remote"
+    "overrideRACEndPoint": "/authcode/v1/remote",
+
+    "ctApiGateway": "https://api.qa.telematicsct.com/",
+    "oAuthApiUrl" : "https://sts.windows.net",
+    "oAuthApiEndPoint":"/b7738916-b44d-42a5-8ea8-c7ed3cfd87cd/oauth2/token"
 }
 
