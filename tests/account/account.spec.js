@@ -19,10 +19,9 @@ data.phoneNumber = utils.randomPhoneNumber();
 describe(`Create account API`, () => {
     before((done) => {
         const envNamePrefix = process.env.OAUTH;
-        if(process.env.OAUTH == true){
+        if(process.env.OAUTH == 'true'){
             const oauthService = new OAuthService();
             oauthService.getAuthToken((err,res) => {
-                console.log(res.body.access_token);
                 if(res.body){
                     oAuthToken = res.body.access_token;
                 }
@@ -36,7 +35,6 @@ describe(`Create account API`, () => {
         const accountService = new AccountService(oAuthToken);
         accountService.createAccount(data, (err, res)=>{
             response = res;
-            console.log(JSON.stringify(res.body));
             if(err || res.statusCode != 200){
                 process.env.API_NAME = 'CREATE ACCOUNT';
 
@@ -73,7 +71,7 @@ describe(`Create account API`, () => {
 describe(`Search account by email`, () => {
     let accountFound;
     before((done) => {
-        const accountService = new AccountService();
+        const accountService = new AccountService(oAuthToken);
 
         accountService.searchAccount(data, (err,res)=>{
             response = res;
@@ -104,7 +102,7 @@ describe(`Search account by phone number`, () => {
     before((done) => {
         delete data.email;
         data.phone = data.phoneNumber;
-        const accountService = new AccountService();
+        const accountService = new AccountService(oAuthToken);
         accountService.searchAccount(data, (err,res)=>{
             response = res;
             if(err || res.statusCode != 200){
@@ -129,7 +127,7 @@ describe(`Search account by phone number`, () => {
     });
 });
 
-describe(`Update account API`, () => {
+describe(`Update account information`, () => {
     let homeAddress;
     before((done) => {
         data.firstName += '-edited';
@@ -150,7 +148,7 @@ describe(`Update account API`, () => {
         delete data.email;
         delete data.phoneNumber;
         delete data.customerType;
-        const accountService = new AccountService();
+        const accountService = new AccountService(oAuthToken);
         accountService.updateAccount(data, (err,res)=>{
             response = res;
             if(response.body.payload){
@@ -202,4 +200,54 @@ describe(`Update account API`, () => {
     it("should update home zipcode", () => {
         expect(account.addresses[0].zipCode).to.equal(homeAddress.zipCode);
     })
+});
+
+describe(`Send Verification Code to Email`, () => {
+    let homeAddress;
+    before((done) => {
+        var data = {};
+        data.to = 'email';
+        data.guid = account.guid;
+        const accountService = new AccountService(oAuthToken);
+        accountService.sendVerificationCode(data, (err,res)=>{
+            response = res;
+            if(err || res.statusCode != 200){
+                process.env.API_NAME = 'SEND VERIFICATION CODE TO EMAIL';
+
+                process.env.REQUEST_PAYLOAD = JSON.stringify(data);
+                process.env.RESPONSE_PAYLOAD = JSON.stringify(res.body);
+            }
+            done();
+        });
+    });
+
+    it('should return 201', () => {
+        expect(response.status).to.equal(201);
+    });
+});
+
+describe(`Send Verification Code to Phone`, () => {
+    let homeAddress;
+    before((done) => {
+        let data = {};
+        data.to = 'phone';
+        data.guid = account.guid;
+        const accountService = new AccountService(oAuthToken);
+        accountService.sendVerificationCode(data, (err,res)=>{
+            response = res;
+            if(err || res.statusCode != 200){
+                process.env.API_NAME = 'SEND VERIFICATION CODE TO Phone';
+
+                process.env.REQUEST_PAYLOAD = JSON.stringify(data);
+                process.env.RESPONSE_PAYLOAD = JSON.stringify(res.body);
+                //console.log(process.env.RESPONSE_PAYLOAD);
+                //console.log(process.env.REQUEST_PAYLOAD);
+            }
+            done();
+        });
+    });
+
+    it('should return 201', () => {
+        expect(response.status).to.equal(201);
+    });
 });

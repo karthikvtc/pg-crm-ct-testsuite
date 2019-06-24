@@ -25,7 +25,7 @@ describe(`Generate Zuora Preview API`, () => {
         subPreviewService.getAvailableSubscriptions(vin, (err, res) => {
             response = res;
             if (res.body.payload) {
-                //console.log(res.body.payload.subscriptions);
+                //////console.log(res.body.payload.subscriptions);
                 subscriptions = res.body.payload.subscriptions
                     .filter((x) => { return x.type == 'Paid' })
                     .map((x) => {
@@ -65,8 +65,8 @@ describe(`Generate Zuora Preview API`, () => {
 
                 process.env.REQUEST_PAYLOAD = JSON.stringify(request);
                 process.env.RESPONSE_PAYLOAD = JSON.stringify(res.body);
-                console.log(process.env.REQUEST_PAYLOAD);
-                console.log(process.env.RESPONSE_PAYLOAD);
+                ////console.log(process.env.REQUEST_PAYLOAD);
+                ////console.log(process.env.RESPONSE_PAYLOAD);
             }
             if (res.body.payload) {
                 payload = res.body.payload;

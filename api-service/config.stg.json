@@ -5,7 +5,7 @@
     "apiEndPoint": "/v1/account",
 
     "subscriptionPreviewUrl": "https://api.stg.telematicsct.com",
-    "orchestrationApiBaseUrl" : "https://orchsub.stg.telematicsct.com",
+    "orchestrationApiBaseUrl" : "https://api.stg.telematicsct.com",
     "subPreviewEndPoint": "/v1/subscriptions",
     "subscriptionEndPoint": "/subscription/v1/subscriptions",
 
@@ -17,6 +17,8 @@
 
     "overrideRACUrl": "https://orchrac.stg.telematicsct.com",
     "overrideRACEndPoint": "/authcode/v1/remote",
+
+    "accountActivationCodeUrl" : "https://orchcca.stg.telematicsct.com",
 
     "ctApiGateway": "https://api.stg.telematicsct.com",
     "oAuthApiUrl" : "https://sts.windows.net",

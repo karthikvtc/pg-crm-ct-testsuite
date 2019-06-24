@@ -12,8 +12,6 @@ const service = function () {
         'Content-Type': 'application/x-www-form-urlencoded'
     };
 
-    console.log(authClientId);
-
     var data = {
         'client_id': authClientId,
         'client_secret': authClientSecret,
@@ -24,9 +22,9 @@ const service = function () {
     return {
         getAuthToken: (done) => {
             const oAuthEndpoint = config.oAuthApiEndPoint;
-           // console.log(config.oAuthApiUrl + oAuthEndpoint);
+           // ////console.log(config.oAuthApiUrl + oAuthEndpoint);
             const api = supertest(config.oAuthApiUrl);
-           // console.log(data);
+           // ////console.log(data);
             api.post(oAuthEndpoint)
                 .set(headers)
                 .type('form')

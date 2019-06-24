@@ -18,6 +18,12 @@
     "overrideRACUrl": "https://orchrac.dev.telematicsct.com",
     "overrideRACEndPoint": "/authcode/v1/remote",
 
+    "accountActivationUrl" : "https://orchcca.dev.telematicsct.com",
+    "accountActivationEndPoint":"/v1/account/activation",
+
+    "wifiTrialUrl" : "https://wifi.dev.telematicsct.com",
+    "wifiTrialEndPoint":"/v1/wifitrial",
+
     "ctApiGateway": "https://api.qa.telematicsct.com",
     "oAuthApiUrl" : "https://sts.windows.net",
     "oAuthApiEndPoint":"/b7738916-b44d-42a5-8ea8-c7ed3cfd87cd/oauth2/token"

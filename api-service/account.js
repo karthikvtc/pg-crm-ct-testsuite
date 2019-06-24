@@ -28,8 +28,6 @@ const service = function (oAuthToken) {
                 apiBaseUrl = config.ctApiGateway;
             }
             const api = supertest(apiBaseUrl);
-            console.log(apiBaseUrl + apiEndPoint);
-            console.log(headers);
             process.env.REQUEST_HEADERS = JSON.stringify(headers);
 
             api.post(apiEndPoint)
@@ -77,6 +75,23 @@ const service = function (oAuthToken) {
                 headers.Phone = data.phoneNumber
             }
             api.get(apiEndPoint)
+                .set(headers)
+                .end(done);
+        },
+        sendVerificationCode: (data, done) => {
+            let apiBaseUrl = config.accountActivationCodeUrl;
+            headers.Authorization = config.PostAuthKey;
+            
+            if(oAuthToken){
+                headers.Authorization = `Bearer ${oAuthToken}`;
+                headers['x-api-key'] = apiKey;
+                apiBaseUrl = config.ctApiGateway;
+            }
+            const api = supertest(apiBaseUrl);
+            process.env.REQUEST_HEADERS = JSON.stringify(headers);
+            headers.Guid = data.guid;
+            headers.To = data.to;
+            api.get('/v1/account/activation')
                 .set(headers)
                 .end(done);
         }

@@ -9,30 +9,108 @@ const service = function (oAuthToken) {
 
     var headers = {
         'Content-Type': 'application/json',
+        'Accept-Encoding': 'deflate',
         'x-channel': 'TC_AGENT',
         'x-correlationid': '98a82114-d859-8ffe-4f51-ffe284ab3c1f',
-        'x-brand': 'L',
-        'authorization': config.authKey,
+        'x-brand': 'T',
+        'Authorization': config.authKey,
         'datetime': 1540232258482
     };
-    if(oAuthToken){
-        headers.Authorization = `Bearer ${oAuthToken}`;
-        headers['x-api-key'] = apiKey;
-    }
+
     return {
         createSubscription: (data, done) => {
-            const api = supertest(config.orchestrationApiBaseUrl);
+            let apiBaseUrl = config.orchestrationApiBaseUrl;
+            headers.Authorization = config.authKey;
+            
+            if(oAuthToken){
+                headers.Authorization = `Bearer ${oAuthToken}`;
+                headers['x-api-key'] = apiKey;
+                apiBaseUrl = config.ctApiGateway;
+            }
+            const api = supertest(apiBaseUrl);
+            ////console.log(apiBaseUrl + config.subscriptionEndPoint);
+            ////console.log(headers);
+
             process.env.REQUEST_HEADERS = JSON.stringify(headers);
+            ////console.log(JSON.stringify(data));
             api.post(config.subscriptionEndPoint)
+                .set(headers)
+                .send(JSON.stringify(data))
+                .end(done);
+        },
+        cancelSubscription: (data, done) => {
+            let apiBaseUrl = config.orchestrationApiBaseUrl;
+            headers.Authorization = config.authKey;
+            
+            if(oAuthToken){
+                headers.Authorization = `Bearer ${oAuthToken}`;
+                headers['x-api-key'] = apiKey;
+                apiBaseUrl = config.ctApiGateway;
+            }
+            const api = supertest(apiBaseUrl);
+
+            process.env.REQUEST_HEADERS = JSON.stringify(headers);
+            const cancelSubEndPoint = "/subscription/v1/cancel";
+            ////console.log(apiBaseUrl + cancelSubEndPoint);
+
+            api.put(cancelSubEndPoint)
                 .set(headers)
                 .send(data)
                 .end(done);
         },
-        cancelSubscription: (data, done) => {
-            const api = supertest(config.orchestrationApiBaseUrl);
+        createEC: (data, done) => {
+            let apiBaseUrl = config.orchestrationApiBaseUrl;
+            headers.Authorization = config.authKey;
+            
+            if(oAuthToken){
+                headers.Authorization = `Bearer ${oAuthToken}`;
+                headers['x-api-key'] = apiKey;
+                apiBaseUrl = config.ctApiGateway;
+            }
+            const api = supertest(apiBaseUrl);
+
             process.env.REQUEST_HEADERS = JSON.stringify(headers);
-            const cancelSubEndPoint = "/subscription/v1/cancel";
-            api.put(cancelSubEndPoint)
+            const ecEndPoint = "/emergencycontact";
+
+            api.put(ecEndPoint)
+                .set(headers)
+                .send(data)
+                .end(done);
+        },
+        replaceRemoteUser: (data, done) => {
+            let apiBaseUrl = config.orchestrationApiBaseUrl;
+            headers.Authorization = config.authKey;
+            
+            if(oAuthToken){
+                headers.Authorization = `Bearer ${oAuthToken}`;
+                headers['x-api-key'] = apiKey;
+                apiBaseUrl = config.ctApiGateway;
+            }
+            const api = supertest(apiBaseUrl);
+
+            process.env.REQUEST_HEADERS = JSON.stringify(headers);
+            const endpoint = "/remoteguid";
+
+            api.put(endpoint)
+                .set(headers)
+                .send(data)
+                .end(done);
+        },
+        updateDataConsent: (data, done) => {
+            let apiBaseUrl = config.orchestrationApiBaseUrl;
+            headers.Authorization = config.authKey;
+            
+            if(oAuthToken){
+                headers.Authorization = `Bearer ${oAuthToken}`;
+                headers['x-api-key'] = apiKey;
+                apiBaseUrl = config.ctApiGateway;
+            }
+            const api = supertest(apiBaseUrl);
+
+            process.env.REQUEST_HEADERS = JSON.stringify(headers);
+            const endpoint = "/dataconsent";
+
+            api.put(endpoint)
                 .set(headers)
                 .send(data)
                 .end(done);

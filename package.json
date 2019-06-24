@@ -4,7 +4,9 @@
   "description": "Test Suite for CT APIs",
   "main": "index.js",
   "scripts": {
-    "test": "mocha 'tests/account/*.spec.js' -t 10000",
+    "testaccount": "mocha 'tests/account/*.spec.js' -t 10000",
+    "testrac": "mocha 'tests/rac/*.spec.js' -t 10000",
+    "testsub": "mocha 'tests/subscription/subscription.spec.js' -t 10000",
     "posttest": "open 'mochawesome-report/mochawesome.html'"
   },
   "repository": {
@@ -21,6 +23,7 @@
     "dotenv": "^6.2.0",
     "mocha": "^5.2.0",
     "mochawesome": "^3.0.2",
+    "moment": "^2.24.0",
     "request": "^2.88.0",
     "supertest": "^3.1.0",
     "tv4": "^1.3.0"

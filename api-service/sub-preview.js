@@ -8,12 +8,12 @@ const service = function (oAuthToken) {
     const apiKey = process.env[`${envNamePrefix}_API_KEY`];
     
     var headers = {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
+        'accept': 'application/json',
+        'content-Type': 'application/json',
         'x-channel': 'TC_AGENT',
         'x-correlationid': '123e4567-e89b-12d3-a456-abhishek0002',
-        'x-brand': 'L',
-        'asi-code': 'AS',
+        'x-brand': 'T',
+        'asi-code': 'AP',
         'hw-type': '010',
         'generation': '17CYPLUS',
         'region': 'US',
@@ -25,7 +25,7 @@ const service = function (oAuthToken) {
         getAvailableSubscriptions: (vin, done) => {
             const subPreviewEndPoint = `${config.subPreviewEndPoint}/${vin}`;
             let apiBaseUrl = config.subscriptionPreviewUrl;
-            headers.authorization = config.PostAuthKey;
+            headers.authorization = config.authKey;
             
             if(oAuthToken){
                 headers.authorization = `Bearer ${oAuthToken}`;
@@ -36,7 +36,6 @@ const service = function (oAuthToken) {
 
             headers.vin = vin;
             process.env.REQUEST_HEADERS = JSON.stringify(headers);
-            console.log(process.env.REQUEST_HEADERS);
             api.get(subPreviewEndPoint)
                 .set(headers)
                 .end(done)

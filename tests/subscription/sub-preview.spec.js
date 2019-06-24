@@ -17,11 +17,9 @@ var oAuthToken;
 
 describe(`Get Available Subscriptions API`, () => {
     before((done) => {
-        const envNamePrefix = process.env.OAUTH;
-        if(process.env.OAUTH == true){
+            if(process.env.OAUTH === 'true'){
             const oauthService = new OAuthService();
             oauthService.getAuthToken((err,res) => {
-                console.log(res.body.access_token);
                 if(res.body){
                     oAuthToken = res.body.access_token;
                 }
@@ -43,7 +41,7 @@ describe(`Get Available Subscriptions API`, () => {
             if(err || res.statusCode != 200){
                 process.env.API_NAME = 'GET SUB PREVIEW';
                 process.env.RESPONSE_PAYLOAD = JSON.stringify(res.body);
-                console.log(process.env.RESPONSE_PAYLOAD);
+                ////console.log(process.env.RESPONSE_PAYLOAD);
             }
             response = res;
             if (res.body.payload) {
