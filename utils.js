@@ -14,7 +14,7 @@
             },
             log: function (msg){
                 if(process.env.DEBUG){
-                    ////console.log(msg);
+                    //////console.log(msg);
                 }
             }
         }

@@ -240,8 +240,8 @@ describe(`Send Verification Code to Phone`, () => {
 
                 process.env.REQUEST_PAYLOAD = JSON.stringify(data);
                 process.env.RESPONSE_PAYLOAD = JSON.stringify(res.body);
-                //console.log(process.env.RESPONSE_PAYLOAD);
-                //console.log(process.env.REQUEST_PAYLOAD);
+                ////console.log(process.env.RESPONSE_PAYLOAD);
+                ////console.log(process.env.REQUEST_PAYLOAD);
             }
             done();
         });

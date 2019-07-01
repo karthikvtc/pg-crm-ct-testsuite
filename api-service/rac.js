@@ -8,16 +8,15 @@ const service = function (oAuthToken) {
     const apiKey = process.env[`${envNamePrefix}_API_KEY`];
 
     var headers = {
-        'content-Type': 'application/json',
-        'x-channel': 'TC_AGENT',
+        'Content-Type': 'application/json',
+        'X-CHANNEL': 'TC_AGENT',
         'x-correlationid': '98a82114-d859-8ffe-4f51-ffe284ab3c1f',
-        'x-brand': 'T',
-        'datetime': 1540232258482
+        'x-brand': 'T'
     };
     return {
         createRAC: (data, done) => {
             let apiBaseUrl = config.racUrl;
-            headers.Authorization = config.PostAuthKey;
+            headers.Authorization = config.authKey;
             
             if(oAuthToken){
                 headers.Authorization = `Bearer ${oAuthToken}`;
@@ -26,16 +25,16 @@ const service = function (oAuthToken) {
             }
             const api = supertest(apiBaseUrl);
             process.env.REQUEST_HEADERS = JSON.stringify(headers);
-            //console.log(headers);
-            //console.log(apiBaseUrl + config.racEndPoint);
-            //console.log(data);
+            console.log(data);
+            console.log(headers);
+            console.log(apiBaseUrl + config.racEndPoint);
             api.post(config.racEndPoint)
                 .set(headers)
                 .send(data)
                 .end(done);
         },
         overrideRAC: (data, done) => {
-            let apiBaseUrl = config.overrideRACUrl;
+            let apiBaseUrl = config.racUrl;
             headers.Authorization = process.env[`${envNamePrefix}_CT_OVERRIDE_RAC_AUTH_KEY`];
             
             if(oAuthToken){
@@ -46,7 +45,7 @@ const service = function (oAuthToken) {
             const api = supertest(apiBaseUrl);
 
             process.env.REQUEST_HEADERS = JSON.stringify(headers);
-            api.post(config.overrideRACEndPoint)
+            api.post(config.racEndPoint)
                 .set(headers)
                 .send(data)
                 .end(done);

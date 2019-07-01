@@ -8,8 +8,8 @@ const service = function (oAuthToken) {
     const apiKey = process.env[`${envNamePrefix}_API_KEY`];
     
     var headers = {
-        'accept': 'application/json',
-        'content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
         'x-channel': 'TC_AGENT',
         'x-correlationid': '123e4567-e89b-12d3-a456-abhishek0002',
         'x-brand': 'T',
@@ -17,7 +17,7 @@ const service = function (oAuthToken) {
         'hw-type': '010',
         'generation': '17CYPLUS',
         'region': 'US',
-        'authorization': config.authKey,
+        'Authorization': config.authKey,
         'datetime': 1511796583386
     };
 
@@ -25,16 +25,17 @@ const service = function (oAuthToken) {
         getAvailableSubscriptions: (vin, done) => {
             const subPreviewEndPoint = `${config.subPreviewEndPoint}/${vin}`;
             let apiBaseUrl = config.subscriptionPreviewUrl;
-            headers.authorization = config.authKey;
+            headers.Authorization = config.authKey;
             
             if(oAuthToken){
-                headers.authorization = `Bearer ${oAuthToken}`;
+                headers.Authorization = `Bearer ${oAuthToken}`;
                 headers['x-api-key'] = apiKey;
                 apiBaseUrl = config.ctApiGateway;
             }
             const api = supertest(apiBaseUrl);
-
+            //console.log(headers);
             headers.vin = vin;
+            //console.log(apiBaseUrl + subPreviewEndPoint)
             process.env.REQUEST_HEADERS = JSON.stringify(headers);
             api.get(subPreviewEndPoint)
                 .set(headers)

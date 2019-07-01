@@ -4,24 +4,22 @@
     "searchAccountBaseUrl": "https://orchcd.stg.telematicsct.com",
     "apiEndPoint": "/v1/account",
 
-    "subscriptionPreviewUrl": "https://api.stg.telematicsct.com",
-    "orchestrationApiBaseUrl" : "https://api.stg.telematicsct.com",
+    "subscriptionPreviewUrl": "https://spreview.stg.telematicsct.com",
+    "orchestrationApiBaseUrl" : "https://orchsub.stg.telematicsct.com",
     "subPreviewEndPoint": "/v1/subscriptions",
     "subscriptionEndPoint": "/subscription/v1/subscriptions",
 
     "zuoraPreviewUrl": "https://zpreview.stg.telematicsct.com",
     "zuoraPreviewEndPoint": "/v1/preview",
 
-    "racUrl": "https://rac.stg.telematicsct.com",
+    "racUrl": "https://orchrac.stg.telematicsct.com",
     "racEndPoint": "/authcode/v1/remote",
-
-    "overrideRACUrl": "https://orchrac.stg.telematicsct.com",
-    "overrideRACEndPoint": "/authcode/v1/remote",
 
     "accountActivationCodeUrl" : "https://orchcca.stg.telematicsct.com",
 
     "ctApiGateway": "https://api.stg.telematicsct.com",
     "oAuthApiUrl" : "https://sts.windows.net",
-    "oAuthApiEndPoint":"/f855c7e1-6646-4300-8de1-10c7d3001287/oauth2/token"
+    "oAuthApiEndPoint":"/f855c7e1-6646-4300-8de1-10c7d3001287/oauth2/token",
+    "wifiUrl":   "https://wifi.stg.telematicsct.com/"
 }
 

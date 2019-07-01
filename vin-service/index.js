@@ -15,7 +15,7 @@ module.exports = function (env) {
                         await vinService.registerInADF(vin, imei);
                         await vinService.registerInFDF(vin, imei);
                     }
-                    resolve(vin);
+                    resolve({vin, imei});
                 } else {
                     resolve(null);
                 }

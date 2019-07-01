@@ -87,11 +87,17 @@ const service = function (oAuthToken) {
                 headers['x-api-key'] = apiKey;
                 apiBaseUrl = config.ctApiGateway;
             }
+            
+
             const api = supertest(apiBaseUrl);
+            const endpoint = '/v1/account/activation';
+           
             process.env.REQUEST_HEADERS = JSON.stringify(headers);
-            headers.Guid = data.guid;
-            headers.To = data.to;
-            api.get('/v1/account/activation')
+            headers.guid = data.guid;
+            headers.to = data.to;
+            ////console.log(headers);
+            ////console.log(apiBaseUrl + endpoint);
+            api.get(endpoint)
                 .set(headers)
                 .end(done);
         }

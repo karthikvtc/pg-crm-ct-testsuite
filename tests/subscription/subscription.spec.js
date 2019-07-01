@@ -4,6 +4,7 @@ const mocha = require('mocha')
 const tv4 = require('tv4');
 const fs = require('fs');
 const moment = require('moment');
+const uuid = require('uuid');
 const envNamePrefix = process.env.ENV;
 const vinService = require(__dirname + '/../../vin-service')(envNamePrefix);
 const SubPreviewService = require('../../api-service/sub-preview');
@@ -16,21 +17,23 @@ const schema = fs.readFileSync(__dirname + '/subscription.schema');
 const OAuthService = require('../../api-service/oauth');
 var oAuthToken;
 var response;
-var vin;
+var vin, imei;
 var subscriptions = [];
 var subscriberGuid, remoteUserGuid;
 var data = test_data;
 var subResponse = null;
 var subItemResponse = null;
 var subAPIResponse = null;
+const today = moment().format('YYYY-MM-DDTHH:mm:ss.SSS').toString() + '-0500';
+let account = {};
 
 describe(`Create Trial Subscription `, () => {
     before((done) => {
         const envNamePrefix = process.env.OAUTH;
-        if(process.env.OAUTH == 'true'){
+        if (process.env.OAUTH == 'true') {
             const oauthService = new OAuthService(oAuthToken);
-            oauthService.getAuthToken((err,res) => {
-                if(res.body){
+            oauthService.getAuthToken((err, res) => {
+                if (res.body) {
                     oAuthToken = res.body.access_token;
                 }
                 done();
@@ -39,20 +42,24 @@ describe(`Create Trial Subscription `, () => {
             done();
         }
     });
+    //Generate Vin
     before((done) => {
         vinService.createVin().then((res) => {
-            vin = res;
+            vin = res.vin;
+            imei = res.imei;
+            //console.log(`VIN : ${vin}     IMEI:${imei}`);
             done();
         });
     });
+    //Create Account
     before((done) => {
-        var account = {};
+        account = {};
         account.firstName = utils.randomStr(5);
         account.lastName = utils.randomStr(5);
-        account.email = `${account.lastName}@test.com`;
+        account.email = `${account.lastName}@tcAgentTestSuite.com`;
         account.phoneNumber = utils.randomPhoneNumber();
         const accountService = new AccountService(oAuthToken);
-        accountService.createAccount(account, (err,res) => {
+        accountService.createAccount(account, (err, res) => {
             if (res.body.payload) {
                 subscriberGuid = res.body.payload.customer.guid;
                 remoteUserGuid = subscriberGuid;
@@ -60,41 +67,44 @@ describe(`Create Trial Subscription `, () => {
             done();
         });
     });
+    //Get Available Subscriptions
     before((done) => {
         const subPreviewService = new SubPreviewService(oAuthToken);
-        subPreviewService.getAvailableSubscriptions(vin, (err,res) => {
+        subPreviewService.getAvailableSubscriptions(vin, (err, res) => {
             response = res;
             if (res.body.payload) {
-              subscriptions = res.body.payload.subscriptions.map(({type,termUnit,term,subscriptionStartDate,subscriptionEndDate, ratePlanID, productName,productID,productCode, packageID}) => ({type,termUnit,term,subscriptionStartDate,subscriptionEndDate, ratePlanID, productName,productID,productCode, packageID}));
+                subscriptions = res.body.payload.subscriptions.map(({ type, termUnit, term, subscriptionStartDate, subscriptionEndDate, ratePlanID, productName, productID, productCode, packageID }) => ({ type, termUnit, term, subscriptionStartDate, subscriptionEndDate, ratePlanID, productName, productID, productCode, packageID }));
             }
             done();
         });
     });
+    //Create Subscription
     before((done) => {
         data.vin = vin;
         data.subscriberGuid = subscriberGuid;
         data.remoteUser = { remoteUserGuid };
         data.paymentMethodId = null;
-        data.termsAcceptanceDate = moment().format('YYYY-MM-DDTHH:mm:ss.SSS').toString() + '-0500';
-        data.createDate = moment().format('YYYY-MM-DDTHH:mm:ss.SSS').toString() + '-0500';
-        data.subscriptions = subscriptions.filter((s)=>{return s.type === 'Trial'});
+        data.termsAcceptanceDate = today;
+        data.createDate = today;
+        data.subscriptions = subscriptions.filter((s) => { return s.type === 'Trial' });
         const subscriptionService = new SubscriptionService(oAuthToken);
-        //console.log(data);
+        ////console.log(data);
         subscriptionService.createSubscription(data, (err, res1) => {
-            if(err || res1.statusCode != 200){
+            if (err || res1.statusCode != 200) {
                 process.env.API_NAME = 'CREATE SUBSCRIPTION';
 
                 process.env.REQUEST_PAYLOAD = JSON.stringify(data);
                 process.env.RESPONSE_PAYLOAD = JSON.stringify(res1.body);
+                ////console.log(process.env.RESPONSE_PAYLOAD);
             }
             subAPIResponse = res1;
-            if(res1.body) {
+            if (res1.body) {
                 subResponse = res1.body.payload;
-                if(res1.body.payload && res1.body.payload.subscriptions){
+                if (res1.body.payload && res1.body.payload.subscriptions) {
                     subItemResponse = res1.body.payload.subscriptions[0];
                 }
             }
-            
+
             done();
         });
     });
@@ -136,7 +146,7 @@ describe(`Emergency Contact`, () => {
         const subscriptionService = new SubscriptionService(oAuthToken);
 
         subscriptionService.createEC(data, (err, res) => {
-            if(err || res.statusCode != 200){
+            if (err || res.statusCode != 200) {
                 process.env.API_NAME = 'CREATE EMERGENCY CONTACT';
                 process.env.REQUEST_PAYLOAD = JSON.stringify(data);
                 process.env.RESPONSE_PAYLOAD = JSON.stringify(res.body);
@@ -145,7 +155,7 @@ describe(`Emergency Contact`, () => {
             done();
         });
     });
- 
+
     it('should return 200', () => {
         expect(response.status).to.equal(200);
     });
@@ -165,7 +175,7 @@ describe(`Update Data Consent`, () => {
         const subscriptionService = new SubscriptionService(oAuthToken);
 
         subscriptionService.updateDataConsent(data, (err, res) => {
-            if(err || res.statusCode != 200){
+            if (err || res.statusCode != 200) {
                 process.env.API_NAME = 'UPDATE DATA CONSENT';
                 process.env.REQUEST_PAYLOAD = JSON.stringify(data);
                 process.env.RESPONSE_PAYLOAD = JSON.stringify(res.body);
@@ -174,7 +184,7 @@ describe(`Update Data Consent`, () => {
             done();
         });
     });
- 
+
     it('should return 200', () => {
         expect(response.status).to.equal(200);
     });
@@ -189,7 +199,7 @@ describe(`Replace Remote User`, () => {
         const subscriptionService = new SubscriptionService(oAuthToken);
 
         subscriptionService.replaceRemoteUser(data, (err, res) => {
-            if(err || res.statusCode != 200){
+            if (err || res.statusCode != 200) {
                 process.env.API_NAME = 'REPLACE REMOTE USER';
                 process.env.REQUEST_PAYLOAD = JSON.stringify(data);
                 process.env.RESPONSE_PAYLOAD = JSON.stringify(res.body);
@@ -198,7 +208,7 @@ describe(`Replace Remote User`, () => {
             done();
         });
     });
- 
+
     it('should return 200', () => {
         expect(response.status).to.equal(200);
     });
@@ -213,7 +223,7 @@ describe(`Cancel Subscription`, () => {
         const subscriptionService = new SubscriptionService(oAuthToken);
 
         subscriptionService.cancelSubscription(data, (err, res) => {
-            if(err || res.statusCode != 200){
+            if (err || res.statusCode != 200) {
                 process.env.API_NAME = 'CANCEL SUBSCRIPTION';
 
                 process.env.REQUEST_PAYLOAD = JSON.stringify(data);
@@ -223,32 +233,33 @@ describe(`Cancel Subscription`, () => {
             done();
         });
     });
- 
+
     it('should return 200', () => {
         expect(response.status).to.equal(200);
     });
 });
 
-describe('Send Remote Auth Code By Email', ()=>{
+describe('Send Remote Auth Code By Email', () => {
     before((done) => {
         const racService = new RacService(oAuthToken);
         var request = {
             "vin": vin,
             "guid": subscriberGuid,
             "purpose": "REMOTE_AUTHORIZATION",
-            "email": "karthik.vellaichamy@toyotaconnected.com",
             "validateByAgent": false,
-            "sendNotification": true
+            "sendNotification": true,
+            "notifyByEmail": true,
+            "notifyByPhone": false
         }
 
         racService.createRAC(request, (err, res) => {
             response = res;
-            if(err || res.statusCode != 200){
-                process.env.API_NAME = 'SEND RAC';
+            if (err || res.statusCode != 200) {
+                process.env.API_NAME = 'SEND RAC BY EMAIL';
 
                 process.env.REQUEST_PAYLOAD = JSON.stringify(request);
                 process.env.RESPONSE_PAYLOAD = JSON.stringify(res.body);
-                //console.log(process.env.RESPONSE_PAYLOAD);
+                ////console.log(process.env.RESPONSE_PAYLOAD);
             }
             done();
         });
@@ -259,25 +270,27 @@ describe('Send Remote Auth Code By Email', ()=>{
     });
 });
 
-describe('Send Remote Auth Code By Phone', ()=>{
+describe('Send Remote Auth Code By Phone', () => {
     before((done) => {
         const racService = new RacService(oAuthToken);
         var request = {
             "vin": vin,
             "guid": subscriberGuid,
-            "purpose": "REMOTE_AUTHORIZATION",
-            "phone": utils.randomPhoneNumber(),
             "validateByAgent": false,
-            "sendNotification": true
-        }
+            "sendNotification": true,
+            "purpose": "REMOTE_AUTHORIZATION",
+            "notifyByEmail": false,
+            "notifyByPhone": true
+        };
 
         racService.createRAC(request, (err, res) => {
             response = res;
-            if(err || res.statusCode != 200){
-                process.env.API_NAME = 'SEND RAC';
+            if (err || res.statusCode != 200) {
+                process.env.API_NAME = 'SEND RAC BY PHONE';
 
                 process.env.REQUEST_PAYLOAD = JSON.stringify(request);
                 process.env.RESPONSE_PAYLOAD = JSON.stringify(res.body);
+                ////console.log(process.env.RESPONSE_PAYLOAD);
             }
             done();
         });
@@ -288,26 +301,61 @@ describe('Send Remote Auth Code By Phone', ()=>{
     });
 });
 
-describe('Override Remote Auth Code', ()=>{
+describe('Override Remote Auth Code', () => {
     before((done) => {
         const racService = new RacService(oAuthToken);
         var request = {
-        "vin": vin,
-        "validateByAgent":true,
-        "sendNotification":true,
-        "purpose":"REMOTE_AUTHORIZATION",
-        "phone":null,
-        "guid":"5bfca75ec0ce4ae388273faff2a6ec2e",
-        "email":null
-    }
+            "vin": vin,
+            "guid": subscriberGuid,
+            "validateByAgent": true,
+            "sendNotification": true,
+            "purpose": "REMOTE_AUTHORIZATION",
+            "notifyByEmail": false,
+            "notifyByPhone": false
+        };
 
         racService.overrideRAC(request, (err, res) => {
             response = res;
-            if(err || res.statusCode != 200){
+            if (err || res.statusCode != 200) {
                 process.env.API_NAME = 'OVERRIDE RAC';
-                ////console.log(res.body);
+                //////console.log(res.body);
                 process.env.REQUEST_PAYLOAD = JSON.stringify(request);
                 process.env.RESPONSE_PAYLOAD = JSON.stringify(res.body);
+            }
+            done();
+        });
+    });
+
+    it('should return 200', () => {
+        expect(response.status).to.equal(200);
+    });
+});
+
+describe('Start Wifi Trial', () => {
+    before((done) => {
+        const subService = new SubscriptionService(oAuthToken);
+        var request = {
+            "vin": vin,
+            "transId": uuid.v4(),
+            "deviceIdType": 'IMEI',
+            "deviceId": imei,
+            "firstName": account.firstName,
+            "lastName": account.lastName,
+            "primaryCallBackNum": account.phoneNumber,
+            "primaryEmail": account.email,
+            "country": 'US',
+            "tncAcceptDate": today,
+            "language": "E"
+        };
+        ////console.log(request);
+
+        subService.createWifiTrial(request, (err, res) => {
+            response = res;
+            if (err || res.statusCode != 200) {
+                process.env.API_NAME = 'WIFI TRIAL';
+                process.env.REQUEST_PAYLOAD = JSON.stringify(request);
+                process.env.RESPONSE_PAYLOAD = JSON.stringify(res.body);
+               // //console.log(process.env.RESPONSE_PAYLOAD);
             }
             done();
         });
