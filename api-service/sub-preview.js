@@ -33,9 +33,9 @@ const service = function (oAuthToken) {
                 apiBaseUrl = config.ctApiGateway;
             }
             const api = supertest(apiBaseUrl);
-            //console.log(headers);
+            ////console.log(headers);
             headers.vin = vin;
-            //console.log(apiBaseUrl + subPreviewEndPoint)
+            ////console.log(apiBaseUrl + subPreviewEndPoint)
             process.env.REQUEST_HEADERS = JSON.stringify(headers);
             api.get(subPreviewEndPoint)
                 .set(headers)

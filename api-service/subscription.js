@@ -9,7 +9,7 @@ const service = function (oAuthToken) {
 
     var headers = {
         'Content-Type': 'application/json',
-        'Accept-Encoding': 'deflate',
+        'accept-encoding': 'deflate',
         'x-channel': 'TC_AGENT',
         'x-correlationid': '98a82114-d859-8ffe-4f51-ffe284ab3c1f',
         'x-brand': 'T',
@@ -28,11 +28,11 @@ const service = function (oAuthToken) {
                 apiBaseUrl = config.ctApiGateway;
             }
             const api = supertest(apiBaseUrl);
-           // //console.log(apiBaseUrl + config.subscriptionEndPoint);
-           // //console.log(headers);
+           // ////console.log(apiBaseUrl + config.subscriptionEndPoint);
+           // ////console.log(headers);
 
             process.env.REQUEST_HEADERS = JSON.stringify(headers);
-            //////console.log(JSON.stringify(data));
+            ////////console.log(JSON.stringify(data));
             api.post(config.subscriptionEndPoint)
                 .set(headers)
                 .send(JSON.stringify(data))
@@ -51,7 +51,7 @@ const service = function (oAuthToken) {
 
             process.env.REQUEST_HEADERS = JSON.stringify(headers);
             const cancelSubEndPoint = "/subscription/v1/cancel";
-            //////console.log(apiBaseUrl + cancelSubEndPoint);
+            ////////console.log(apiBaseUrl + cancelSubEndPoint);
 
             api.put(cancelSubEndPoint)
                 .set(headers)
@@ -71,7 +71,8 @@ const service = function (oAuthToken) {
 
             process.env.REQUEST_HEADERS = JSON.stringify(headers);
             const ecEndPoint = "/subscription/v1/emergencycontact";
-            //console.log(data);
+            //console.log(apiBaseUrl + ecEndPoint);
+            //console.log(headers);
             api.put(ecEndPoint)
                 .set(headers)
                 .send(data)
@@ -90,7 +91,7 @@ const service = function (oAuthToken) {
 
             process.env.REQUEST_HEADERS = JSON.stringify(headers);
             const endpoint = "/subscription/v1/remoteguid";
-            //console.log(data);
+            ////console.log(data);
             api.put(endpoint)
                 .set(headers)
                 .send(data)
@@ -109,7 +110,7 @@ const service = function (oAuthToken) {
 
             process.env.REQUEST_HEADERS = JSON.stringify(headers);
             const endpoint = "/subscription/v1/dataconsent";
-            //console.log(data);
+            ////console.log(data);
             api.put(endpoint)
                 .set(headers)
                 .send(data)
@@ -126,7 +127,9 @@ const service = function (oAuthToken) {
             }
             const api = supertest(apiBaseUrl);
             const endpoint = "/v1/wifitrial";
-            ////console.log(headers);
+            //console.log(headers);
+            //console.log(apiBaseUrl + endpoint);
+
             process.env.REQUEST_HEADERS = JSON.stringify(headers);
             api.post(endpoint)
                 .set(headers)

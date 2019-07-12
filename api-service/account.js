@@ -95,8 +95,8 @@ const service = function (oAuthToken) {
             process.env.REQUEST_HEADERS = JSON.stringify(headers);
             headers.guid = data.guid;
             headers.to = data.to;
-            ////console.log(headers);
-            ////console.log(apiBaseUrl + endpoint);
+            //////console.log(headers);
+            //////console.log(apiBaseUrl + endpoint);
             api.get(endpoint)
                 .set(headers)
                 .end(done);

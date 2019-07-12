@@ -47,7 +47,7 @@ describe(`Create Trial Subscription `, () => {
         vinService.createVin().then((res) => {
             vin = res.vin;
             imei = res.imei;
-            //console.log(`VIN : ${vin}     IMEI:${imei}`);
+            ////console.log(`VIN : ${vin}     IMEI:${imei}`);
             done();
         });
     });
@@ -88,14 +88,14 @@ describe(`Create Trial Subscription `, () => {
         data.createDate = today;
         data.subscriptions = subscriptions.filter((s) => { return s.type === 'Trial' });
         const subscriptionService = new SubscriptionService(oAuthToken);
-        ////console.log(data);
+        //////console.log(data);
         subscriptionService.createSubscription(data, (err, res1) => {
             if (err || res1.statusCode != 200) {
                 process.env.API_NAME = 'CREATE SUBSCRIPTION';
 
                 process.env.REQUEST_PAYLOAD = JSON.stringify(data);
                 process.env.RESPONSE_PAYLOAD = JSON.stringify(res1.body);
-                ////console.log(process.env.RESPONSE_PAYLOAD);
+                //////console.log(process.env.RESPONSE_PAYLOAD);
             }
             subAPIResponse = res1;
             if (res1.body) {
@@ -259,7 +259,7 @@ describe('Send Remote Auth Code By Email', () => {
 
                 process.env.REQUEST_PAYLOAD = JSON.stringify(request);
                 process.env.RESPONSE_PAYLOAD = JSON.stringify(res.body);
-                ////console.log(process.env.RESPONSE_PAYLOAD);
+                //////console.log(process.env.RESPONSE_PAYLOAD);
             }
             done();
         });
@@ -290,7 +290,7 @@ describe('Send Remote Auth Code By Phone', () => {
 
                 process.env.REQUEST_PAYLOAD = JSON.stringify(request);
                 process.env.RESPONSE_PAYLOAD = JSON.stringify(res.body);
-                ////console.log(process.env.RESPONSE_PAYLOAD);
+                //////console.log(process.env.RESPONSE_PAYLOAD);
             }
             done();
         });
@@ -318,7 +318,7 @@ describe('Override Remote Auth Code', () => {
             response = res;
             if (err || res.statusCode != 200) {
                 process.env.API_NAME = 'OVERRIDE RAC';
-                //////console.log(res.body);
+                ////////console.log(res.body);
                 process.env.REQUEST_PAYLOAD = JSON.stringify(request);
                 process.env.RESPONSE_PAYLOAD = JSON.stringify(res.body);
             }
@@ -347,7 +347,7 @@ describe('Start Wifi Trial', () => {
             "tncAcceptDate": today,
             "language": "E"
         };
-        ////console.log(request);
+        //////console.log(request);
 
         subService.createWifiTrial(request, (err, res) => {
             response = res;
@@ -355,7 +355,8 @@ describe('Start Wifi Trial', () => {
                 process.env.API_NAME = 'WIFI TRIAL';
                 process.env.REQUEST_PAYLOAD = JSON.stringify(request);
                 process.env.RESPONSE_PAYLOAD = JSON.stringify(res.body);
-               // //console.log(process.env.RESPONSE_PAYLOAD);
+                //console.log(process.env.RESPONSE_PAYLOAD);
+                //console.log(process.env.REQUEST_PAYLOAD);
             }
             done();
         });

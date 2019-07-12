@@ -41,7 +41,7 @@ describe(`Get Available Subscriptions API`, () => {
             if(err || res.statusCode != 200){
                 process.env.API_NAME = 'GET SUB PREVIEW';
                 process.env.RESPONSE_PAYLOAD = JSON.stringify(res.body);
-                //////console.log(process.env.RESPONSE_PAYLOAD);
+                ////////console.log(process.env.RESPONSE_PAYLOAD);
             }
             response = res;
             if (res.body.payload) {

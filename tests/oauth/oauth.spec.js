@@ -11,7 +11,7 @@ describe(`Get OAuth Token`, () => {
         const oauthService = new OAuthService();
         oauthService.getAuthToken((err, res) => {
             response = res;
-            //////console.log(res.body);
+            ////////console.log(res.body);
             done();
         });
     });

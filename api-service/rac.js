@@ -9,7 +9,7 @@ const service = function (oAuthToken) {
 
     var headers = {
         'Content-Type': 'application/json',
-        'X-CHANNEL': 'TC_AGENT',
+        'x-channel': 'TC_AGENT',
         'x-correlationid': '98a82114-d859-8ffe-4f51-ffe284ab3c1f',
         'x-brand': 'T'
     };
@@ -25,9 +25,9 @@ const service = function (oAuthToken) {
             }
             const api = supertest(apiBaseUrl);
             process.env.REQUEST_HEADERS = JSON.stringify(headers);
-            console.log(data);
-            console.log(headers);
-            console.log(apiBaseUrl + config.racEndPoint);
+            // //console.log(data);
+            // //console.log(headers);
+            // //console.log(apiBaseUrl + config.racEndPoint);
             api.post(config.racEndPoint)
                 .set(headers)
                 .send(data)
@@ -43,6 +43,8 @@ const service = function (oAuthToken) {
                 apiBaseUrl = config.ctApiGateway;
             }
             const api = supertest(apiBaseUrl);
+            ////console.log(apiBaseUrl + config.racEndPoint);
+            ////console.log(headers);
 
             process.env.REQUEST_HEADERS = JSON.stringify(headers);
             api.post(config.racEndPoint)

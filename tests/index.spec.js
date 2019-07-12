@@ -266,8 +266,8 @@ describe(`CT API Test Suite`, () => {
 
                     process.env.REQUEST_PAYLOAD = JSON.stringify(data);
                     process.env.RESPONSE_PAYLOAD = JSON.stringify(res.body);
-                    //console.log(process.env.RESPONSE_PAYLOAD);
-                    //console.log(process.env.REQUEST_PAYLOAD);
+                    ////console.log(process.env.RESPONSE_PAYLOAD);
+                    ////console.log(process.env.REQUEST_PAYLOAD);
                 }
                 done();
             });
@@ -285,7 +285,7 @@ describe(`CT API Test Suite`, () => {
                 if (err || res.statusCode != 200) {
                     process.env.API_NAME = 'GET SUB PREVIEW';
                     process.env.RESPONSE_PAYLOAD = JSON.stringify(res.body);
-                    ////console.log(process.env.RESPONSE_PAYLOAD);
+                    //////console.log(process.env.RESPONSE_PAYLOAD);
                 }
                 response = res;
                 if (res.body.payload) {
@@ -350,14 +350,14 @@ describe(`CT API Test Suite`, () => {
             data.createDate = today;
             data.subscriptions = subscriptions.filter((s) => { return s.type === 'Trial' });
             const subscriptionService = new SubscriptionService(oAuthToken);
-            //console.log(data);
+            ////console.log(data);
             subscriptionService.createSubscription(data, (err, res1) => {
                 if (err || res1.statusCode != 200) {
                     process.env.API_NAME = 'CREATE SUBSCRIPTION';
 
                     process.env.REQUEST_PAYLOAD = JSON.stringify(data);
                     process.env.RESPONSE_PAYLOAD = JSON.stringify(res1.body);
-                    //console.log(process.env.RESPONSE_PAYLOAD);
+                    ////console.log(process.env.RESPONSE_PAYLOAD);
                 }
                 subAPIResponse = res1;
                 if (res1.body) {
@@ -412,6 +412,8 @@ describe(`CT API Test Suite`, () => {
                     process.env.API_NAME = 'CREATE EMERGENCY CONTACT';
                     process.env.REQUEST_PAYLOAD = JSON.stringify(data);
                     process.env.RESPONSE_PAYLOAD = JSON.stringify(res.body);
+                    //console.log(process.env.REQUEST_PAYLOAD);
+                    //console.log(process.env.RESPONSE_PAYLOAD);
                 }
                 response = res;
                 done();
@@ -490,67 +492,67 @@ describe(`CT API Test Suite`, () => {
         });
     });
 
-    describe('Send Remote Auth Code By Email', () => {
-        before((done) => {
-            const racService = new RacService(oAuthToken);
-            var request = {
-                "vin": vin,
-                "guid": subscriberGuid,
-                "purpose": "REMOTE_AUTHORIZATION",
-                "validateByAgent": false,
-                "sendNotification": true,
-                "notifyByEmail": true,
-                "notifyByPhone": false
-            }
+    // describe('Send Remote Auth Code By Email', () => {
+    //     before((done) => {
+    //         const racService = new RacService(oAuthToken);
+    //         var request = {
+    //             "vin": vin,
+    //             "guid": subscriberGuid,
+    //             "purpose": "REMOTE_AUTHORIZATION",
+    //             "validateByAgent": false,
+    //             "sendNotification": true,
+    //             "notifyByEmail": true,
+    //             "notifyByPhone": false
+    //         }
 
-            racService.createRAC(request, (err, res) => {
-                response = res;
-                if (err || res.statusCode != 200) {
-                    process.env.API_NAME = 'SEND RAC BY EMAIL';
+    //         racService.createRAC(request, (err, res) => {
+    //             response = res;
+    //             if (err || res.statusCode != 200) {
+    //                 process.env.API_NAME = 'SEND RAC BY EMAIL';
 
-                    process.env.REQUEST_PAYLOAD = JSON.stringify(request);
-                    process.env.RESPONSE_PAYLOAD = JSON.stringify(res.body);
-                    //console.log(process.env.RESPONSE_PAYLOAD);
-                }
-                done();
-            });
-        });
+    //                 process.env.REQUEST_PAYLOAD = JSON.stringify(request);
+    //                 process.env.RESPONSE_PAYLOAD = JSON.stringify(res.body);
+    //                 ////console.log(process.env.RESPONSE_PAYLOAD);
+    //             }
+    //             done();
+    //         });
+    //     });
 
-        it('should return 200', () => {
-            expect(response.status).to.equal(200);
-        });
-    });
+    //     it('should return 200', () => {
+    //         expect(response.status).to.equal(200);
+    //     });
+    // });
 
-    describe('Send Remote Auth Code By Phone', () => {
-        before((done) => {
-            const racService = new RacService(oAuthToken);
-            var request = {
-                "vin": vin,
-                "guid": subscriberGuid,
-                "validateByAgent": false,
-                "sendNotification": true,
-                "purpose": "REMOTE_AUTHORIZATION",
-                "notifyByEmail": false,
-                "notifyByPhone": true
-            };
+    // describe('Send Remote Auth Code By Phone', () => {
+    //     before((done) => {
+    //         const racService = new RacService(oAuthToken);
+    //         var request = {
+    //             "vin": vin,
+    //             "guid": subscriberGuid,
+    //             "validateByAgent": false,
+    //             "sendNotification": true,
+    //             "purpose": "REMOTE_AUTHORIZATION",
+    //             "notifyByEmail": false,
+    //             "notifyByPhone": true
+    //         };
 
-            racService.createRAC(request, (err, res) => {
-                response = res;
-                if (err || res.statusCode != 200) {
-                    process.env.API_NAME = 'SEND RAC BY PHONE';
+    //         racService.createRAC(request, (err, res) => {
+    //             response = res;
+    //             if (err || res.statusCode != 200) {
+    //                 process.env.API_NAME = 'SEND RAC BY PHONE';
 
-                    process.env.REQUEST_PAYLOAD = JSON.stringify(request);
-                    process.env.RESPONSE_PAYLOAD = JSON.stringify(res.body);
-                    console.log(process.env.RESPONSE_PAYLOAD);
-                }
-                done();
-            });
-        });
+    //                 process.env.REQUEST_PAYLOAD = JSON.stringify(request);
+    //                 process.env.RESPONSE_PAYLOAD = JSON.stringify(res.body);
+    //                 //console.log(process.env.RESPONSE_PAYLOAD);
+    //             }
+    //             done();
+    //         });
+    //     });
 
-        it('should return 200', () => {
-            expect(response.status).to.equal(200);
-        });
-    });
+    //     it('should return 200', () => {
+    //         expect(response.status).to.equal(200);
+    //     });
+    // });
 
     describe('Override Remote Auth Code', () => {
         before((done) => {
@@ -569,9 +571,11 @@ describe(`CT API Test Suite`, () => {
                 response = res;
                 if (err || res.statusCode != 200) {
                     process.env.API_NAME = 'OVERRIDE RAC';
-                    ////console.log(res.body);
+                    //////console.log(res.body);
                     process.env.REQUEST_PAYLOAD = JSON.stringify(request);
                     process.env.RESPONSE_PAYLOAD = JSON.stringify(res.body);
+                    ////console.log(process.env.REQUEST_PAYLOAD);
+                    ////console.log(process.env.RESPONSE_PAYLOAD);
                 }
                 done();
             });
@@ -598,7 +602,7 @@ describe(`CT API Test Suite`, () => {
                 "tncAcceptDate": today,
                 "language": "E"
             };
-            //console.log(request);
+            ////console.log(request);
 
             subService.createWifiTrial(request, (err, res) => {
                 response = res;
@@ -606,7 +610,8 @@ describe(`CT API Test Suite`, () => {
                     process.env.API_NAME = 'WIFI TRIAL';
                     process.env.REQUEST_PAYLOAD = JSON.stringify(request);
                     process.env.RESPONSE_PAYLOAD = JSON.stringify(res.body);
-                    // console.log(process.env.RESPONSE_PAYLOAD);
+                    //console.log(process.env.REQUEST_PAYLOAD);
+                    //console.log(process.env.RESPONSE_PAYLOAD);
                 }
                 done();
             });
